@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SidebarItemsEnum {
+  Authors
+  Bookings
+  Reviews
+  ManageUsers
+}
+
+model User {
+  id         String   @id @default(uuid())
+  fullName   String
+  email      String   @unique
+  password   String
+  isDeleted  Boolean  @default(false)
+  restricted Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  roleId     String
+  role       Role     @relation(fields: [roleId], references: [id])
+}
+
+model Role {
+  id          String       @id @default(uuid())
+  name        String       @unique
+  permissions Permission[] @relation("RolePermissions")
+  User        User[]
+  isDeleted   Boolean      @default(false)
+  restricted  Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Booking {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  rating      Int      @default(1)
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Author {
+  id        String   @id @default(uuid())
+  name      Int      @default(1)
+  about     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Permission {
+  id          String           @id @default(uuid())
+  sideBarItem SidebarItemsEnum
+  canCreate   Boolean          @default(false)
+  canRead     Boolean          @default(true)
+  canUpdate   Boolean          @default(false)
+  canDelete   Boolean          @default(false)
+  roleId      String
+  role        Role             @relation("RolePermissions", fields: [roleId], references: [id], onDelete: Cascade)
+  isDeleted   Boolean          @default(false)
+  restricted  Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
