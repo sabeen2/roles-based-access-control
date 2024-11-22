@@ -5,9 +5,7 @@ import {
 } from "../../schema/user-signup.schema";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { generateVerificationCode } from "../../utils/generate-verification-opt.utils";
 import CookieMethods from "../../utils/cookie-methods.utils";
-import { sendVerificationEmail } from "../../utils/send-email-verification.utils";
 
 export default async function signup(
   req: Request,
@@ -41,6 +39,8 @@ export default async function signup(
         message: "Passwords do not match.",
       });
     }
+
+    // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: {
         email,
@@ -54,16 +54,29 @@ export default async function signup(
       });
     }
 
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const verificationCode = generateVerificationCode();
 
+    // Find the 'User' role or create one if it doesn't exist
+    const userRole = await prisma.role.findUnique({
+      where: { name: "User" },
+    });
+
+    if (!userRole) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Role 'User' not found in the database. Please contact the admin.",
+      });
+    }
+
+    // Create new user with the 'User' role
     const newUser = await prisma.user.create({
       data: {
         email,
         fullName,
         password: hashedPassword,
-        verificationCode,
-        verificationCodeExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        roleId: userRole.id, // Assign the 'User' role
       },
       select: {
         fullName: true,
@@ -71,18 +84,17 @@ export default async function signup(
       },
     });
 
+    // Generate JWT token and set cookie
     const cookie = CookieMethods.generateJWT(newUser.email);
-
     CookieMethods.setCookie(res, cookie, 7);
-
-    await sendVerificationEmail({ email, verificationCode });
 
     return res.status(201).json({
       success: true,
-      message: "Signup successful. Please check your email for verification!",
+      message: "Signup successful. ",
       data: newUser,
     });
   } catch (err) {
+    console.error(err); // For debugging purposes
     return res.status(500).json({
       success: false,
       message: "An unexpected error occurred.",

@@ -34,7 +34,6 @@ export default async function login(req: Request, res: Response): Promise<any> {
       select: {
         email: true,
         fullName: true,
-        isVerified: true,
         password: true,
       },
     });
@@ -66,7 +65,6 @@ export default async function login(req: Request, res: Response): Promise<any> {
       data: {
         email: user.email,
         fullName: user.fullName,
-        isVerified: user.isVerified,
       },
     });
   } catch (error) {
