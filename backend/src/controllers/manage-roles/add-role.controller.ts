@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import prisma from "../../../prisma/prismaClient";
 import { SidebarItemsEnum } from "../../schema/manage-users.schema";
 

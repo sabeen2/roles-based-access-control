@@ -62,6 +62,20 @@ model Author {
   updatedAt DateTime @updatedAt
 }
 
+// model Permission {
+//   id          String           @id @default(uuid())
+//   sideBarItem SidebarItemsEnum
+//   canCreate   Boolean          @default(false)
+//   canRead     Boolean          @default(true)
+//   canUpdate   Boolean          @default(false)
+//   canDelete   Boolean          @default(false)
+//   roleId      String
+//   role        Role             @relation("RolePermissions", fields: [roleId], references: [id], onDelete: Cascade)
+//   isDeleted   Boolean          @default(false)
+//   restricted  Boolean          @default(false)
+//   createdAt   DateTime         @default(now())
+//   updatedAt   DateTime         @updatedAt
+// }
 model Permission {
   id          String           @id @default(uuid())
   sideBarItem SidebarItemsEnum
@@ -75,4 +89,6 @@ model Permission {
   restricted  Boolean          @default(false)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
+
+  @@unique([roleId, sideBarItem])
 }

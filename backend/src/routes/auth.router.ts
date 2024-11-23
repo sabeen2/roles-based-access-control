@@ -9,8 +9,5 @@ const authRouter = Router();
 // Setup route handler
 authRouter.post("/signup", signup);
 authRouter.post("/login", login);
-// authRouter.post("/verify-email", protectedRoute, verifyEmail);
-// authRouter.post("/forget-password", forgotPassword);
-// authRouter.post("/reset-password", resetPassword);
 
 export default authRouter;

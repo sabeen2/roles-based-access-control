@@ -6,9 +6,8 @@ export const getAllRoles = async (
   res: Response
 ): Promise<any> => {
   try {
-    // Fetch roles and their permissions, excluding unwanted fields
     const roles = await prisma.role.findMany({
-      where: { isDeleted: false }, // Filter out deleted roles
+      where: { isDeleted: false },
       select: {
         id: true,
         name: true,
@@ -21,7 +20,7 @@ export const getAllRoles = async (
             canUpdate: true,
             canDelete: true,
             roleId: true,
-          }, // Select only the fields needed for permissions
+          },
         },
       },
     });
