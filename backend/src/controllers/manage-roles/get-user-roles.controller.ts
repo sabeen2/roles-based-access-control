@@ -5,7 +5,10 @@ interface CustomRequest extends Request {
   user: { email: string };
 }
 
-export const getRoles = async (req: CustomRequest, res: Response) => {
+export const getUserRoles = async (
+  req: CustomRequest,
+  res: Response
+): Promise<any> => {
   try {
     const { email } = req.user;
 

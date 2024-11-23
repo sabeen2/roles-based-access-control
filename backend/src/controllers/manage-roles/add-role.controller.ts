@@ -15,7 +15,10 @@ interface AddRoleRequest extends Request {
   };
 }
 
-export const addNewRole = async (req: AddRoleRequest, res: Response) => {
+export const addNewRole = async (
+  req: AddRoleRequest,
+  res: Response
+): Promise<any> => {
   const { name, permissions } = req.body;
 
   // Validate input data
@@ -63,13 +66,11 @@ export const addNewRole = async (req: AddRoleRequest, res: Response) => {
       },
     });
 
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "Role Added Sucessfully",
-        data: newRole,
-      });
+    res.status(201).json({
+      success: true,
+      message: "Role Added Sucessfully",
+      data: newRole,
+    });
   } catch (error) {
     console.error("Error adding role:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
