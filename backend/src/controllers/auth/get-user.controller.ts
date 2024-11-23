@@ -20,7 +20,6 @@ export default async function getUser(
       select: {
         email: true,
         fullName: true,
-        isVerified: true,
       },
     });
 

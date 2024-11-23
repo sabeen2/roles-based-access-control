@@ -1,7 +1,10 @@
 import express, { Request, Response } from "express";
 import prisma from "../../../prisma/prismaClient";
 
-export const getRoles = async (_req: Request, res: Response) => {
+export const getAllRoles = async (
+  _req: Request,
+  res: Response
+): Promise<any> => {
   try {
     // Fetch roles and their permissions, excluding unwanted fields
     const roles = await prisma.role.findMany({

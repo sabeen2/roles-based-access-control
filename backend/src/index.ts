@@ -5,8 +5,8 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.router";
 import getUser from "./controllers/auth/get-user.controller";
 import protectedRoute from "./middlewares/protectedRoute.middleware";
-import userSettingRouter from "./routes/userSettings.router";
 import manageRolesRouter from "./routes/manage-roles.router";
+import { getUserRoles } from "./controllers/manage-roles/get-user-roles.controller";
 // import swaggerUi from "swagger-ui-express";
 // const { specs, swaggerUi } = require("./utils/swagger.utils");
 
@@ -47,7 +47,7 @@ app.use(express.json({ limit: "16kb" }));
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use(`/${apiPrefix}/get-user-info`, protectedRoute, getUser);
+app.use(`/${apiPrefix}/get-user-roles`, protectedRoute, getUserRoles as any);
 app.use(`/${apiPrefix}/auth`, authRouter);
 app.use(`/${apiPrefix}/manage`, manageRolesRouter);
 
