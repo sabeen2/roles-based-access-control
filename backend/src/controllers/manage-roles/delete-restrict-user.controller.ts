@@ -39,7 +39,7 @@ const deleteRestrictUser = async (
       });
       return res
         .status(200)
-        .json({ success: true, message: "User deleted permanently" });
+        .json({ success: true, message: "User deleted sucessfully" });
     }
 
     // If restrictUser is true, update the restricted field to true
