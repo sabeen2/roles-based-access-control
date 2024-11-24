@@ -62,6 +62,13 @@ export const editRole = async (req: Request, res: Response): Promise<any> => {
       });
     }
 
+    if (role.name === "Admin") {
+      return res.status(404).json({
+        success: false,
+        message: "Admin is managerial role, not allowed to modify",
+      });
+    }
+
     await prisma.role.update({
       where: { id: roleId },
       data: { name },

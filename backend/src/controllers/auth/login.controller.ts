@@ -14,7 +14,7 @@ export default async function login(req: Request, res: Response): Promise<any> {
   if (validatedData.error) {
     return res.status(400).json({
       success: false,
-      message: "Data validation failed. Unsupported Data Type",
+      message: "Unsupported Data Type or length less that 6 digits",
     });
   }
 

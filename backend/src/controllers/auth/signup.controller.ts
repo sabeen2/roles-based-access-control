@@ -19,7 +19,7 @@ export default async function signup(
     if (validatedData.error) {
       return res.status(400).json({
         success: false,
-        message: "Data validation failed. Unsupported Data Type",
+        message: "Unsupported Data Type or length less that 6 digits",
       });
     }
 
@@ -37,6 +37,18 @@ export default async function signup(
       return res.status(400).json({
         success: false,
         message: "Passwords do not match.",
+      });
+    }
+
+    // Password validation rules
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Include at least one uppercase letter, one lowercase letter, one number, and one special character.",
       });
     }
 
