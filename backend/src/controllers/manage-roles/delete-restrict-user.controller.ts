@@ -8,7 +8,9 @@ const deleteRestrictUser = async (
   const { userId, deleteUser, restrictUser } = req.body;
 
   if (!userId) {
-    return res.status(400).json({ error: "User ID is required" });
+    return res
+      .status(400)
+      .json({ success: false, error: "User ID is required" });
   }
 
   try {
@@ -18,7 +20,16 @@ const deleteRestrictUser = async (
     });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    // Check if the user's email is the protected admin email
+    if (user.email === "admin@yopmail.com") {
+      return res.status(403).json({
+        success: false,
+        error:
+          "Cannot restrict or delete the original admin, may lead to problems.",
+      });
     }
 
     // If deleteUser is true, delete the user permanently
@@ -26,7 +37,9 @@ const deleteRestrictUser = async (
       await prisma.user.delete({
         where: { id: userId },
       });
-      return res.status(200).json({ message: "User deleted permanently" });
+      return res
+        .status(200)
+        .json({ success: true, message: "User deleted permanently" });
     }
 
     // If restrictUser is true, update the restricted field to true
@@ -35,14 +48,20 @@ const deleteRestrictUser = async (
         where: { id: userId },
         data: { restricted: true },
       });
-      return res.status(200).json({ message: "User restricted successfully" });
+      return res
+        .status(200)
+        .json({ success: true, message: "User restricted successfully" });
     }
 
     // If neither action is specified, return an error
-    return res.status(400).json({ error: "No valid action provided" });
+    return res
+      .status(400)
+      .json({ success: false, error: "No valid action provided" });
   } catch (error) {
     console.error("Error handling user action:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({ success: false, error: "Internal Server Error" });
   }
 };
 

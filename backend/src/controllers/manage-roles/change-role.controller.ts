@@ -40,7 +40,7 @@ const changeUserRole = async (req: Request, res: Response): Promise<any> => {
 
     return res.status(200).json({
       success: true,
-      message: "Role assignedsuccessfully",
+      message: "Role assigned successfully",
     });
   } catch (error) {
     console.error("Error assigning role:", error);
