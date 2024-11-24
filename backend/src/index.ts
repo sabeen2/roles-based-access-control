@@ -7,6 +7,7 @@ import getUser from "./controllers/auth/get-user.controller";
 import protectedRoute from "./middlewares/protectedRoute.middleware";
 import manageRolesRouter from "./routes/manage-roles.router";
 import { getUserRoles } from "./controllers/manage-roles/get-user-roles.controller";
+import bookingRouter from "./routes/booking.router";
 // import swaggerUi from "swagger-ui-express";
 // const { specs, swaggerUi } = require("./utils/swagger.utils");
 
@@ -50,8 +51,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(`/${apiPrefix}/get-user-roles`, protectedRoute, getUserRoles as any);
 app.use(`/${apiPrefix}/auth`, authRouter);
 app.use(`/${apiPrefix}/manage`, manageRolesRouter);
-
-// app.use(`/${apiPrefix}/user`, userSettingRouter);
+app.use(`/${apiPrefix}/booking`, bookingRouter);
 
 app.get(`/${apiPrefix}`, (req: Request, res: Response) => {
   res.send("Welcome to Express & TypeScript Server");

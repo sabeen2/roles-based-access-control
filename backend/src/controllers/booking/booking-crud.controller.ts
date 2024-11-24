@@ -22,7 +22,10 @@ const handleError = (res: Response, error: any) => {
 };
 
 // 1. Create a new Booking
-export const createBooking = async (req: Request, res: Response) => {
+export const createBooking = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const validatedData = bookingSchema.parse(req.body);
 
@@ -31,9 +34,14 @@ export const createBooking = async (req: Request, res: Response) => {
         name: validatedData.name,
         description: validatedData.description || "",
       },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+      },
     });
 
-    res
+    return res
       .status(201)
       .json({ message: "Booking created successfully", booking: newBooking });
   } catch (error) {
@@ -47,32 +55,49 @@ export const createBooking = async (req: Request, res: Response) => {
 };
 
 // 2. Get all Bookings
-export const getAllBooking = async (req: Request, res: Response) => {
+export const getAllBooking = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
-    const bookings = await prisma.booking.findMany();
-    res.status(200).json(bookings);
+    const bookings = await prisma.booking.findMany({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: bookings,
+    });
   } catch (error) {
     handleError(res, error);
   }
 };
 
 // 3. Update a Booking
-export const updatedBooking = async (req: Request, res: Response) => {
+export const updatedBooking = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
-    const { id } = bookingIdSchema.parse(req.params);
+    const { id } = bookingIdSchema.parse(req.body);
     const validatedData = bookingSchema.partial().parse(req.body);
 
     const updatedBooking = await prisma.booking.update({
       where: { id },
-      data: validatedData,
+      data: {
+        name: validatedData.name,
+        description: validatedData.description,
+      },
     });
 
-    res
-      .status(200)
-      .json({
-        message: "Booking updated successfully",
-        booking: updatedBooking,
-      });
+    return res.status(200).json({
+      message: "Booking updated successfully",
+      booking: updatedBooking,
+    });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res
@@ -87,7 +112,10 @@ export const updatedBooking = async (req: Request, res: Response) => {
 };
 
 // 4. Delete a Booking
-export const deleteBooking = async (req: Request, res: Response) => {
+export const deleteBooking = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const { id } = bookingIdSchema.parse(req.body);
 
@@ -95,7 +123,7 @@ export const deleteBooking = async (req: Request, res: Response) => {
       where: { id },
     });
 
-    res.status(200).json({ message: "Booking deleted successfully" });
+    return res.status(200).json({ message: "Booking deleted successfully" });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res

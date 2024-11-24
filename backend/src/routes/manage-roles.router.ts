@@ -9,13 +9,14 @@ import getAllUsers from "../controllers/manage-roles/get-all-users.controller";
 import deleteRestrictUser from "../controllers/manage-roles/delete-restrict-user.controller";
 
 const manageRolesRouter = Router();
+manageRolesRouter.use(protectedRoute);
 
-manageRolesRouter.post("/add-new-role", protectedRoute, addNewRole);
-manageRolesRouter.post("/delete-role", protectedRoute, deleteRole);
-manageRolesRouter.get("/get-all-roles", protectedRoute, getAllRoles);
-manageRolesRouter.post("/edit-role", protectedRoute, editRole);
-manageRolesRouter.post("/assign-role", protectedRoute, changeUserRole);
-manageRolesRouter.get("/get-all-users", protectedRoute, getAllUsers);
-manageRolesRouter.post("/user-action", protectedRoute, deleteRestrictUser);
+manageRolesRouter.post("/add-new-role", addNewRole);
+manageRolesRouter.post("/delete-role", deleteRole);
+manageRolesRouter.get("/get-all-roles", getAllRoles);
+manageRolesRouter.post("/edit-role", editRole);
+manageRolesRouter.post("/assign-role", changeUserRole);
+manageRolesRouter.get("/get-all-users", getAllUsers);
+manageRolesRouter.post("/user-action", deleteRestrictUser);
 
 export default manageRolesRouter;
