@@ -21,7 +21,13 @@ export const deleteRole = async (req: Request, res: Response): Promise<any> => {
         .json({ success: false, message: "Role not found" });
     }
 
-    // Delete the role
+    if (role.name === "Admin" || role.name === "User") {
+      return res.status(400).json({
+        success: false,
+        message: "Admin / User are permanent role cannot delete",
+      });
+    }
+
     await prisma.role.delete({ where: { id } });
 
     res

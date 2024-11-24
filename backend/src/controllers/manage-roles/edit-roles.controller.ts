@@ -63,7 +63,7 @@ export const editRole = async (req: Request, res: Response): Promise<any> => {
     }
 
     if (role.name === "Admin") {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
         message: "Admin is managerial role, not allowed to modify",
       });

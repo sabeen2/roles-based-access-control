@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import prisma from "../../../prisma/prismaClient";
 
 interface CustomRequest extends Request {
@@ -12,7 +12,6 @@ export const getUserRoles = async (
   try {
     const { email } = req.user;
 
-    // Fetch the user, their role, and associated permissions
     const user = await prisma.user.findUnique({
       where: { email },
       select: {
