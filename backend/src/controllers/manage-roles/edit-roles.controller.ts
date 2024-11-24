@@ -3,7 +3,7 @@ import prisma from "../../../prisma/prismaClient";
 import { SidebarItemsEnum } from "../../schema/manage-users.schema";
 
 interface UpdatePermission {
-  sideBarItem: SidebarItemsEnum; // Must match SidebarItemsEnum
+  sideBarItem: SidebarItemsEnum;
   canCreate: boolean;
   canRead: boolean;
   canUpdate: boolean;
@@ -30,7 +30,6 @@ export const editRole = async (req: Request, res: Response): Promise<any> => {
     const sideBarItemsEnum = ["Authors", "Bookings", "Reviews", "ManageUsers"];
     const providedItems = permissions.map((perm) => perm.sideBarItem);
 
-    // Validate that no extra or missing sideBarItems are provided
     const missingItems = sideBarItemsEnum.filter(
       (item) => !providedItems.includes(item as any)
     );
@@ -52,7 +51,6 @@ export const editRole = async (req: Request, res: Response): Promise<any> => {
       });
     }
 
-    // Check if role exists
     const role = await prisma.role.findUnique({
       where: { id: roleId },
     });
@@ -64,13 +62,11 @@ export const editRole = async (req: Request, res: Response): Promise<any> => {
       });
     }
 
-    // Update role name
     await prisma.role.update({
       where: { id: roleId },
       data: { name },
     });
 
-    // Upsert permissions (update if exists, create if not)
     const permissionUpdates = permissions.map((permission) =>
       prisma.permission.upsert({
         where: {
@@ -96,7 +92,6 @@ export const editRole = async (req: Request, res: Response): Promise<any> => {
       })
     );
 
-    // Execute permission updates
     await Promise.all(permissionUpdates);
 
     return res.status(200).json({
