@@ -9,6 +9,7 @@ const getAllUsers = async (req: Request, res: Response): Promise<any> => {
         id: true,
         fullName: true,
         email: true,
+        restricted: true,
         role: {
           select: {
             id: true,
