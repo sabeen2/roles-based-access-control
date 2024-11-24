@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 import cors, { CorsOptions } from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.router";
-import getUser from "./controllers/auth/get-user.controller";
 import protectedRoute from "./middlewares/protectedRoute.middleware";
 import manageRolesRouter from "./routes/manage-roles.router";
 import { getUserRoles } from "./controllers/manage-roles/get-user-roles.controller";
 import bookingRouter from "./routes/booking.router";
 import authorRouter from "./routes/author.router";
+import reviewRouter from "./routes/review.router";
 // import swaggerUi from "swagger-ui-express";
 // const { specs, swaggerUi } = require("./utils/swagger.utils");
 
@@ -54,6 +54,7 @@ app.use(`/${apiPrefix}/auth`, authRouter);
 app.use(`/${apiPrefix}/manage`, manageRolesRouter);
 app.use(`/${apiPrefix}/booking`, bookingRouter);
 app.use(`/${apiPrefix}/author`, authorRouter);
+app.use(`/${apiPrefix}/review`, reviewRouter);
 
 app.get(`/${apiPrefix}`, (req: Request, res: Response) => {
   res.send("Welcome to Express & TypeScript Server");

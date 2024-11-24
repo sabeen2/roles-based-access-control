@@ -7,7 +7,7 @@ import {
   deleteAuthor,
   getAllAuthor,
   updatedAuthor,
-} from "../controllers/booking/author-crud.controller";
+} from "../controllers/author/author-crud.controller";
 
 const authorRouter = Router();
 authorRouter.use(protectedRoute);
