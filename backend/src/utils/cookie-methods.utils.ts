@@ -55,7 +55,7 @@ class CookieMethods {
     });
   }
 
-  static removeCookie(res: Response, cookieName = "jwt"): void {
+  static removeCookie(res: Response, cookieName = "token"): void {
     res.clearCookie(cookieName);
   }
 }

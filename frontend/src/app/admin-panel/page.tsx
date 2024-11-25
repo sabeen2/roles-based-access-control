@@ -6,22 +6,16 @@ import {
   Calendar,
   UserCog,
   ChevronLeft,
-  Search,
-  Bell,
-  Settings,
-  LayoutGrid,
   ChevronRight,
-  Plus,
-  Filter,
-  MoreHorizontal,
-  TrendingUp,
-  ArrowUpRight,
-  Activity,
+  LayoutGrid,
+  Menu,
+  X,
 } from "lucide-react";
 
 const AdminPanel = () => {
   const [activeItem, setActiveItem] = useState("Author");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const sidebarItems = [
     {
@@ -55,23 +49,23 @@ const AdminPanel = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-[#0A0A0A] to-[#1a1a1a]">
-      {/* Sidebar */}
+    <div className="flex h-screen bg-slate-950">
+      {/* Sidebar for larger screens */}
       <div
-        className={`relative ${
+        className={`hidden lg:flex ${
           isSidebarCollapsed ? "w-20" : "w-72"
-        } h-screen bg-black/40 backdrop-blur-xl border-r border-white/5 transition-all duration-300 flex flex-col`}
+        } h-screen bg-slate-900/50 backdrop-blur-xl border-r border-slate-800 transition-all duration-300 flex-col`}
       >
         {/* Logo Area */}
-        <div className="flex items-center h-20 px-6 border-b border-white/5">
+        <div className="flex items-center h-20 px-6 border-b border-slate-800">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
               <LayoutGrid size={20} className="text-white" />
             </div>
             {!isSidebarCollapsed && (
               <div>
                 <h1 className="text-white font-semibold">Enterprise</h1>
-                <p className="text-xs text-white/50">Administrative Portal</p>
+                <p className="text-xs text-slate-400">Administrative Portal</p>
               </div>
             )}
           </div>
@@ -88,16 +82,16 @@ const AdminPanel = () => {
                   isSidebarCollapsed ? "justify-center" : "justify-between"
                 } p-4 rounded-xl transition-all duration-200 group ${
                   activeItem === item.label
-                    ? "bg-gradient-to-r from-blue-500/10 to-blue-500/5 text-blue-400"
-                    : "text-white/70 hover:bg-white/5"
+                    ? "bg-gradient-to-r from-indigo-500/10 to-indigo-500/5 text-indigo-400"
+                    : "text-slate-400 hover:bg-slate-800/50"
                 }`}
               >
                 <div className="flex items-center space-x-3">
                   <div
                     className={`p-2 rounded-lg ${
                       activeItem === item.label
-                        ? "bg-blue-500/20"
-                        : "bg-white/5"
+                        ? "bg-indigo-500/20"
+                        : "bg-slate-800/50"
                     }`}
                   >
                     <item.icon size={18} />
@@ -105,7 +99,7 @@ const AdminPanel = () => {
                   {!isSidebarCollapsed && <span>{item.label}</span>}
                 </div>
                 {!isSidebarCollapsed && activeItem === item.label && (
-                  <ChevronRight size={16} className="text-blue-400" />
+                  <ChevronRight size={16} className="text-indigo-400" />
                 )}
               </button>
             ))}
@@ -113,10 +107,10 @@ const AdminPanel = () => {
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-white/5">
+        <div className="p-4 border-t border-slate-800">
           <button
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="w-full p-3 rounded-xl bg-gradient-to-r from-white/5 to-white/0 text-white/70 hover:text-white transition-colors flex items-center justify-center"
+            className="w-full p-3 rounded-xl bg-slate-800/50 text-slate-400 hover:text-white transition-colors flex items-center justify-center"
           >
             <ChevronLeft
               className={`transform transition-transform ${
@@ -128,38 +122,93 @@ const AdminPanel = () => {
         </div>
       </div>
 
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsDrawerOpen(true)}
+        className="lg:hidden fixed top-4 left-4 p-3 rounded-full bg-indigo-500 text-white shadow-lg z-50 hover:bg-indigo-600 transition-colors"
+      >
+        <Menu size={20} />
+      </button>
+
+      {/* Mobile Drawer */}
+      {isDrawerOpen && (
+        <div className="lg:hidden fixed inset-0 z-50">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsDrawerOpen(false)}
+          />
+
+          {/* Drawer Content */}
+          <div className="absolute inset-y-0 left-0 w-72 bg-slate-900 shadow-xl transform transition-transform duration-300">
+            {/* Drawer Header */}
+            <div className="h-20 px-6 border-b border-slate-800 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+                  <LayoutGrid size={20} className="text-white" />
+                </div>
+                <div>
+                  <h1 className="text-white font-semibold">Enterprise</h1>
+                  <p className="text-xs text-slate-400">
+                    Administrative Portal
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsDrawerOpen(false)}
+                className="p-2 rounded-lg text-slate-400 hover:bg-slate-800/50"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Drawer Navigation */}
+            <div className="p-4">
+              <div className="space-y-2">
+                {sidebarItems.map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={() => {
+                      setActiveItem(item.label);
+                      setIsDrawerOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between p-4 rounded-xl transition-all duration-200 ${
+                      activeItem === item.label
+                        ? "bg-gradient-to-r from-indigo-500/10 to-indigo-500/5 text-indigo-400"
+                        : "text-slate-400 hover:bg-slate-800/50"
+                    }`}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div
+                        className={`p-2 rounded-lg ${
+                          activeItem === item.label
+                            ? "bg-indigo-500/20"
+                            : "bg-slate-800/50"
+                        }`}
+                      >
+                        <item.icon size={18} />
+                      </div>
+                      <span>{item.label}</span>
+                    </div>
+                    {activeItem === item.label && (
+                      <ChevronRight size={16} className="text-indigo-400" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="h-20 border-b border-white/5 bg-black/20 backdrop-blur-xl">
-          <div className="h-full px-8 flex items-center justify-between">
-            <div className="flex items-center flex-1 space-x-6">
-              <div className="relative max-w-md w-full">
-                <input
-                  type="text"
-                  placeholder="Search resources..."
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-2.5 pl-12 text-white/70 placeholder-white/30 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
-                />
-                <Search
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/30"
-                  size={18}
-                />
-              </div>
-              <button className="px-4 py-2.5 rounded-xl border border-white/10 text-white/70 hover:bg-white/5 transition-colors flex items-center space-x-2">
-                <Filter size={18} />
-                <span className="text-sm">Filters</span>
-              </button>
-            </div>
+        <header className="h-20 border-b border-slate-800 bg-slate-900/50 backdrop-blur-xl">
+          <div className="h-full px-8 flex items-center justify-end">
             <div className="flex items-center space-x-5">
-              <button className="relative p-2.5 rounded-xl bg-white/5 text-white/70 hover:bg-white/10 transition-colors">
-                <Bell size={20} />
-                <span className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full ring-4 ring-black"></span>
-              </button>
-              <button className="p-2.5 rounded-xl bg-white/5 text-white/70 hover:bg-white/10 transition-colors">
-                <Settings size={20} />
-              </button>
-              <div className="flex items-center space-x-3 pl-5 border-l border-white/10">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg">
+              <div className="flex items-center space-x-3 pl-5 border-l border-slate-800">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center">
                   <span className="text-white font-medium">JD</span>
                 </div>
               </div>
@@ -168,112 +217,14 @@ const AdminPanel = () => {
         </header>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-auto">
-          <div className="p-8">
-            {/* Page Header */}
-            <div className="mb-8 flex items-center justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-white mb-2">
-                  {activeItem} Dashboard
-                </h1>
-                <div className="flex items-center space-x-2 text-white/50">
-                  <span className="text-sm">Analytics and overview</span>
-                  <span className="text-white/30">•</span>
-                  <span className="text-sm text-blue-400">Last 30 days</span>
-                </div>
-              </div>
-              <button className="px-5 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white flex items-center space-x-2 shadow-lg shadow-blue-500/20 transition-colors">
-                <Plus size={20} />
-                <span>Add New {activeItem}</span>
-              </button>
-            </div>
+        <main className="flex-1 overflow-auto p-6">
+          <div className=" mx-auto">
+            <h2 className="text-2xl font-semibold text-white mb-6">
+              Dashboard
+            </h2>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {sidebarItems.map((stat, index) => (
-                <div
-                  key={index}
-                  className="group relative rounded-xl p-px overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-b from-blue-500/20 to-purple-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="relative h-full bg-black/40 backdrop-blur-xl rounded-xl border border-white/10 p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="p-3 rounded-xl bg-white/5">
-                        <stat.icon size={20} className="text-blue-400" />
-                      </div>
-                      <div className="flex items-center space-x-1 text-emerald-400 text-sm">
-                        <ArrowUpRight size={16} />
-                        <span>{stat.trend}</span>
-                      </div>
-                    </div>
-                    <div className="space-y-1">
-                      <h3 className="text-2xl font-bold text-white">
-                        {stat.count}
-                      </h3>
-                      <p className="text-sm text-white/50">
-                        {stat.description}
-                      </p>
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
-                      <span className="text-sm text-white/70">
-                        View details
-                      </span>
-                      <ChevronRight size={16} className="text-white/30" />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Content Area */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Main Content Card */}
-              <div className="lg:col-span-2 rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-lg font-semibold text-white">
-                    Activity Overview
-                  </h2>
-                  <button className="p-2 rounded-lg hover:bg-white/5 text-white/50">
-                    <MoreHorizontal size={20} />
-                  </button>
-                </div>
-                <div className="h-64 flex items-center justify-center text-white/20 border-2 border-dashed border-white/10 rounded-xl">
-                  Chart Area
-                </div>
-              </div>
-
-              {/* Side Card */}
-              <div className="rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-lg font-semibold text-white">
-                    Recent Activity
-                  </h2>
-                  <button className="p-2 rounded-lg hover:bg-white/5 text-white/50">
-                    <Activity size={20} />
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                          <TrendingUp size={20} className="text-blue-400" />
-                        </div>
-                        <div>
-                          <h3 className="text-sm font-medium text-white">
-                            Activity {i}
-                          </h3>
-                          <p className="text-xs text-white/50">2 minutes ago</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <div className="text-white">Hello</div>
           </div>
         </main>
       </div>

@@ -1,20 +1,34 @@
 "use client";
 import React, { useState } from "react";
-import { Form, Input, Button } from "antd";
-import {
-  ArrowRightOutlined,
-  EyeOutlined,
-  EyeInvisibleOutlined,
-} from "@ant-design/icons";
+import { Form, Input, Button, message } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { ArrowRight, Command } from "lucide-react";
 import { useForm } from "antd/es/form/Form";
+import { useUserLogin } from "@/api/userAuth/queries";
+import { useRouter } from "next/navigation";
+import paths from "@/utils/paths.utils";
 
 const LoginPage = () => {
   const [loginForm] = useForm();
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  const { mutate: loginUser, isPending: isLoggingIn } = useUserLogin();
 
   const onFinish = (values: any) => {
-    console.log("Form Values:", values);
+    let payload = {
+      email: values.email,
+      password: values.password,
+    };
+    loginUser(payload, {
+      onSuccess: () => {
+        message.success(`User Logged in Sucessfully`);
+        router.push(paths.getAdminPanelPath());
+      },
+      onError: (err) => {
+        message.error(`Failed ${err}`);
+      },
+    });
   };
 
   return (
@@ -105,7 +119,8 @@ const LoginPage = () => {
 
               <Form.Item>
                 <button
-                  onClick={() => loginForm.submit()}
+                  disabled={isLoggingIn}
+                  // onClick={() => loginForm.submit()}
                   className="w-full h-10 sm:h-12 rounded-xl flex items-center justify-center space-x-2 font-semibold text-gray-100"
                   style={{
                     background: "linear-gradient(to right, #3b82f6, #2563eb)",

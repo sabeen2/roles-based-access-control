@@ -1,4 +1,4 @@
-import { RequestMethod } from "@/schema/http.schema";
+import { RequestAuthType, RequestMethod } from "@/schema/http.schema";
 
 const userPrefix = "user";
 const authPrefix = "auth";
@@ -13,6 +13,12 @@ const userAuth = {
     controllerName: `${authPrefix}/signup`,
     queryKeyName: "USER_SIGNUP",
     requestMethod: RequestMethod.POST,
+  },
+  getUserRole: {
+    controllerName: `get-user-roles`,
+    queryKeyName: "GET_USER_ROLE",
+    requestMethod: RequestMethod.POST,
+    requestAuthType: RequestAuthType.AUTH,
   },
 };
 

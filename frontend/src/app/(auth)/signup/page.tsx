@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import {
   Mail,
   Lock,
@@ -12,15 +12,34 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useForm } from "antd/es/form/Form";
+import { useUserSignup } from "@/api/userAuth/queries";
+import { useRouter } from "next/navigation";
+import paths from "@/utils/paths.utils";
 
 const SignupPage = () => {
   const [signupForm] = useForm();
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  const { mutate: signupUser, isPending: isSigningUp } = useUserSignup();
 
   const onFinish = (values: any) => {
-    console.log("Form Values:", values);
+    const payload = {
+      fullName: values.fullName,
+      email: values.email,
+      password: values.password,
+      confirmPassword: values.confirmPassword,
+    };
+    signupUser(payload, {
+      onSuccess: () => {
+        message.success(`User Registered  Sucessfully`);
+        router.push(paths.getAdminPanelPath());
+      },
+      onError: (err) => {
+        message.error(`Failed ${err}`);
+      },
+    });
   };
-
   return (
     <div className="min-h-screen flex flex-col">
       <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 backdrop-blur-md bg-black/20 rounded-full border border-white/10 p-1.5">
@@ -141,7 +160,8 @@ const SignupPage = () => {
 
               <Form.Item>
                 <button
-                  onClick={() => signupForm.submit()}
+                  disabled={isSigningUp}
+                  // onClick={() => signupForm.submit()}
                   className="w-full flex items-center justify-center space-x-2 font-semibold text-gray-100"
                   style={{
                     height: "44px",
