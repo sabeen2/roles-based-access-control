@@ -31,13 +31,14 @@ export const makeHttpRequest = async (
     url: baseUrl,
     api: controllerName,
   };
-  const headerTokenJson = JSON.stringify(headerToken);
+  // const headerTokenJson = JSON.stringify(headerToken);
 
   let config: AxiosRequestConfig = {
     baseURL: baseApiEndpoint,
     url: `/${controllerName}`,
     method: requestMethod,
     responseType: "json",
+
     headers: {
       "Content-Type":
         apiDetails.requestBodyType === RequestBodyType.FORMDATA
@@ -46,6 +47,7 @@ export const makeHttpRequest = async (
       // 'Cache-Control': 'no-store',
     },
     data: transformedData,
+    withCredentials: true,
   };
 
   if (apiRequestDetails.params) {

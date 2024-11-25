@@ -10,6 +10,7 @@ import {
   Workflow,
 } from "lucide-react";
 import Link from "next/link";
+import paths from "@/utils/paths.utils";
 
 const HomePage = () => {
   return (
@@ -74,13 +75,16 @@ const HomePage = () => {
               </div>
 
               <div className="flex items-center space-x-3 sm:space-x-4">
-                <button className="group relative px-2 sm:px-6 py-2 sm:py-3 bg-white text-black rounded-lg overflow-hidden">
+                <Link
+                  href={paths.getAdminPanelPath()}
+                  className="group relative px-2 sm:px-6 py-2 sm:py-3 bg-white text-black rounded-lg overflow-hidden"
+                >
                   <span className="relative z-10 flex items-center font-medium  text-xs sm:text-sm">
                     Access Admin Panel
                     <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-white via-blue-100 to-white bg-[length:200%_100%] animate-shimmer" />
-                </button>
+                </Link>
 
                 <button className="relative px-5 sm:px-6 py-2 sm:py-3 rounded-lg overflow-hidden group border border-gray-600">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
