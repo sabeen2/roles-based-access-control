@@ -106,28 +106,32 @@ const HomePage = () => {
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2 text-sm text-white/50">
                       <Layers size={16} />
-                      <span>Policy Configuration</span>
+                      <span>Users Permissions</span>
                     </div>
                     <pre className="text-sm text-blue-300/90">
                       <code>{`{
-  "policy": {
-    "name": "engineering-prod",
-    "type": "dynamic",
-    "rules": [
-      {
-        "effect": "allow",
-        "actions": ["deploy"],
-        "resources": ["k8s:pods/*"],
-        "conditions": {
-          "env": "production",
-          "team": "engineering"
+        "fullName": "Kevin Mitnic",
+        "role": {
+            "name": "User",
+            "permissions": [
+                
+                {
+                    "sideBarItem": "ManageUsers",
+                    "canCreate": false,
+                    "canRead": false,
+                    "canUpdate": false,
+                    "canDelete": false
+                },
+                {
+                    "sideBarItem": "Bookings",
+                    "canCreate": false,
+                    "canRead": true,
+                    "canUpdate": false,
+                    "canDelete": false
+                }
+            ]
         }
-      }
-    ],
-    "ai_suggestions": true,
-    "auto_remediation": true
-  }
-}`}</code>
+    }`}</code>
                     </pre>
                   </div>
 
@@ -135,11 +139,11 @@ const HomePage = () => {
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                       <span className="text-sm text-white/70">
-                        Policy Validation Passed
+                        Access Validation Passed
                       </span>
                     </div>
-                    <button className="text-xs px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors">
-                      Deploy →
+                    <button className="text-xs px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors cursor-none">
+                      Change →
                     </button>
                   </div>
                 </div>

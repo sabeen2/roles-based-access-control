@@ -1,10 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { apiList } from "..";
 import { makeHttpRequest } from "@/utils/http/make-http-request";
 import { ILoginRequest, ISignupRequest } from "@/schema/userAuth.schema";
 
-const { userLogin, userSignup } = apiList.userAuth;
+const { userLogin, userSignup, getUserRole } = apiList.userAuth;
 
 export const useUserLogin = () => {
   return useMutation({
@@ -21,5 +21,12 @@ export const useUserSignup = () => {
       makeHttpRequest(userSignup, {
         requestData,
       }),
+  });
+};
+
+export const useGetUserRole = () => {
+  return useQuery({
+    queryKey: [getUserRole.queryKeyName],
+    queryFn: () => makeHttpRequest(getUserRole),
   });
 };
