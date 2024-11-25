@@ -21,12 +21,20 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Redirect authenticated users from /login or /signup to /admin-panel
   if (
     token &&
     (currentPath === paths.getLoginPath() ||
       currentPath === paths.getSignupPath())
   ) {
-    return NextResponse.redirect(new URL(paths.homePath(), request.url));
+    return NextResponse.redirect(
+      new URL(paths.getAdminPanelPath(), request.url)
+    );
+  }
+
+  // Keep user on the homepage regardless of authentication after refresh
+  if (currentPath === paths.homePath()) {
+    return NextResponse.next();
   }
 
   const isUnprotectedPath = unprotectedPaths.some(
