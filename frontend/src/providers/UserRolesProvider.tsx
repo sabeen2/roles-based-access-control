@@ -1,9 +1,11 @@
+"use client";
 import React, {
   createContext,
   useContext,
   ReactNode,
   useState,
   useEffect,
+  useMemo,
 } from "react";
 import { useGetUserRole } from "@/api/userAuth/queries";
 
@@ -27,10 +29,13 @@ export const useUserRoles = () => {
 const UserRolesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { data: userRolesData, isLoading: loadingUserRoles } = useGetUserRole();
 
-  const value = {
-    userRolesData: userRolesData?.data,
-    loadingUserRoles,
-  };
+  const value = useMemo(
+    () => ({
+      userRolesData: userRolesData?.data,
+      loadingUserRoles,
+    }),
+    [userRolesData, loadingUserRoles]
+  );
 
   return (
     <UserRolesContext.Provider value={value}>

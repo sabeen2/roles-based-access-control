@@ -4,7 +4,7 @@ import { apiList } from "..";
 import { makeHttpRequest } from "@/utils/http/make-http-request";
 import { ILoginRequest, ISignupRequest } from "@/schema/userAuth.schema";
 
-const { userLogin, userSignup, getUserRole } = apiList.userAuth;
+const { userLogin, userSignup, getUserRole, userLogout } = apiList.userAuth;
 
 export const useUserLogin = () => {
   return useMutation({
@@ -28,5 +28,11 @@ export const useGetUserRole = () => {
   return useQuery({
     queryKey: [getUserRole.queryKeyName],
     queryFn: () => makeHttpRequest(getUserRole),
+  });
+};
+
+export const useUserLogout = () => {
+  return useMutation({
+    mutationFn: () => makeHttpRequest(userLogout),
   });
 };

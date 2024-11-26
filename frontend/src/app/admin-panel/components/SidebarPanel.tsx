@@ -10,72 +10,95 @@ import {
   LayoutGrid,
   Menu,
   X,
+  User2,
+  Rabbit,
 } from "lucide-react";
+import { useUserRoles } from "@/providers/UserRolesProvider";
+import paths from "@/utils/paths.utils";
+import Link from "next/link";
+import { useUserLogout } from "@/api/userAuth/queries";
+import { message } from "antd";
+import { useRouter } from "next/navigation";
+interface AdminLayoutProps {
+  children: React.ReactNode;
+}
 
-const AdminPanel = () => {
+const SidebarPanel: React.FC<AdminLayoutProps> = ({ children }) => {
   const [activeItem, setActiveItem] = useState("Author");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { userRolesData, loadingUserRoles } = useUserRoles();
+  const permissions = userRolesData?.role?.permissions || [];
 
   const sidebarItems = [
     {
       icon: BookOpen,
       label: "Author",
-      count: "245",
-      trend: "+12.5%",
-      description: "Active Authors",
+      link: paths.getAuthorPath(),
     },
     {
       icon: Users,
       label: "Reviews",
-      count: "1,234",
-      trend: "+8.2%",
-      description: "Total Reviews",
+      link: paths.getReviewPath(),
     },
     {
       icon: Calendar,
       label: "Bookings",
-      count: "89",
-      trend: "+15.8%",
-      description: `Today's Bookings`,
+      link: paths.getBookingPath(),
     },
     {
       icon: UserCog,
       label: "User Management",
-      count: "562",
-      trend: "+5.3%",
-      description: "Active Users",
+      link: paths.getUserManagementPath(),
     },
   ];
+  const filteredSidebarItems = sidebarItems.filter((item) =>
+    permissions.some(
+      (permission: { sideBarItem: string; canRead: boolean }) =>
+        permission.sideBarItem === item.label && permission.canRead
+    )
+  );
+
+  const { mutate: logoutUser, isPending: loggingOutUser } = useUserLogout();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logoutUser(undefined, {
+      onSuccess: () => {
+        message.success(`Logged out sucessfully`);
+        router.push(paths.homePath());
+      },
+      onError: (error: any) => {
+        message.error("Logout failed", error);
+      },
+    });
+  };
 
   return (
     <div className="flex h-screen bg-slate-950">
-      {/* Sidebar for larger screens */}
       <div
         className={`hidden lg:flex ${
           isSidebarCollapsed ? "w-20" : "w-72"
         } h-screen bg-slate-900/50 backdrop-blur-xl border-r border-slate-800 transition-all duration-300 flex-col`}
       >
-        {/* Logo Area */}
         <div className="flex items-center h-20 px-6 border-b border-slate-800">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
-              <LayoutGrid size={20} className="text-white" />
+            <div className="w-10 h-10 rounded-xl  flex items-center justify-center">
+              <Rabbit size={30} className="text-white" />
             </div>
             {!isSidebarCollapsed && (
               <div>
-                <h1 className="text-white font-semibold">Enterprise</h1>
-                <p className="text-xs text-slate-400">Administrative Portal</p>
+                <h1 className="text-white font-semibold">RBAC</h1>
               </div>
             )}
           </div>
         </div>
 
-        {/* Sidebar Navigation */}
         <div className="flex-1 px-4 py-6">
           <div className="space-y-2">
             {sidebarItems.map((item) => (
-              <button
+              <Link
+                href={item.link}
                 key={item.label}
                 onClick={() => setActiveItem(item.label)}
                 className={`w-full flex items-center ${
@@ -101,7 +124,7 @@ const AdminPanel = () => {
                 {!isSidebarCollapsed && activeItem === item.label && (
                   <ChevronRight size={16} className="text-indigo-400" />
                 )}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
@@ -144,14 +167,11 @@ const AdminPanel = () => {
             {/* Drawer Header */}
             <div className="h-20 px-6 border-b border-slate-800 flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
-                  <LayoutGrid size={20} className="text-white" />
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center">
+                  <Rabbit size={30} className="text-white" />
                 </div>
                 <div>
-                  <h1 className="text-white font-semibold">Enterprise</h1>
-                  <p className="text-xs text-slate-400">
-                    Administrative Portal
-                  </p>
+                  <h1 className="text-white font-semibold">RBAC</h1>
                 </div>
               </div>
               <button
@@ -203,14 +223,26 @@ const AdminPanel = () => {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
         <header className="h-20 border-b border-slate-800 bg-slate-900/50 backdrop-blur-xl">
           <div className="h-full px-8 flex items-center justify-end">
             <div className="flex items-center space-x-5">
-              <div className="flex items-center space-x-3 pl-5 border-l border-slate-800">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center">
-                  <span className="text-white font-medium">JD</span>
+              <div className="flex items-center pl-5 border-l border-slate-800 space-x-4">
+                {/* Admin Label */}
+                <span className="text-slate-400 text-sm">
+                  {userRolesData?.fullName}
+                </span>
+
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center ">
+                  <User2 className="text-white" />
                 </div>
+
+                <button
+                  disabled={loggingOutUser}
+                  onClick={handleLogout}
+                  className="px-4 py-2 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 transition-colors"
+                >
+                  Logout
+                </button>
               </div>
             </div>
           </div>
@@ -219,12 +251,8 @@ const AdminPanel = () => {
         {/* Main Content Area */}
         <main className="flex-1 overflow-auto p-6">
           <div className=" mx-auto">
-            <h2 className="text-2xl font-semibold text-white mb-6">
-              Dashboard
-            </h2>
-
             {/* Stats Grid */}
-            <div className="text-white">Hello</div>
+            <div className="text-white">{children}</div>
           </div>
         </main>
       </div>
@@ -232,4 +260,4 @@ const AdminPanel = () => {
   );
 };
 
-export default AdminPanel;
+export default SidebarPanel;
