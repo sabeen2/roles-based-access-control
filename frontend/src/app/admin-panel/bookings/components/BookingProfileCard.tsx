@@ -1,14 +1,17 @@
-import { CalendarDays, Pencil, Trash2, X } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
+import Image from "next/image";
+import {
+  CalendarDays,
+  Pencil,
+  Trash2,
+  MoreVertical,
+  CheckCircle,
+} from "lucide-react";
+import { useDeleteBooking } from "@/api/bookings/queries";
+import { message } from "antd";
 import BookingFormModal from "./BookingFormModal";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -17,8 +20,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useDeleteBooking } from "@/api/bookings/queries";
-import { message } from "antd";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const BookingProfileCard = ({
   user,
@@ -38,7 +46,7 @@ const BookingProfileCard = ({
     };
     deleteBooking(payload, {
       onSuccess: () => {
-        message.success(` Deleted Booking Sucessfully`);
+        message.success("Deleted Booking Successfully");
         refetchBookingData();
         setIsDeleteModalOpen(false);
       },
@@ -55,70 +63,73 @@ const BookingProfileCard = ({
 
   return (
     <>
-      <Card className="group relative overflow-hidden bg-gray-900 border-neutral-800 transition-all duration-300 hover:shadow-xl">
-        <CardHeader className="relative p-0 h-48 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 z-[1]"></div>
-          <Image
-            height={900}
-            width={900}
-            src={user.profileImage || "/images/user.png"}
-            alt={`${user.name}'s profile`}
-            className="absolute h-full w-full object-cover group-hover:scale-105 transition-transform duration-300 filter brightness-90"
-          />
-          <div className="absolute top-4 right-4 z-10 flex space-x-2">
+      <div className="relative">
+        <Card className="group relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 max-w-sm">
+          <CardContent className="p-4 space-y-4">
+            <div className="flex items-center justify-between">
+              <Avatar className="h-16 w-16 border-2 border-primary">
+                <AvatarImage
+                  src={user.profileImage || "/images/user.png"}
+                  alt={`${user.name}'s profile`}
+                />
+                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-gray-100 tracking-tight truncate max-w-[70%]">
+                  {user.name}
+                </h2>
+                {user.verified && (
+                  <span className="flex items-center text-xs font-medium text-primary">
+                    <CheckCircle className="mr-1 h-3 w-3" />
+                    Verified
+                  </span>
+                )}
+              </div>
+              <p className="text-gray-400 text-sm line-clamp-2 min-h-[2.5rem]">
+                {user.description || "No description available"}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 absolute top-2 right-2 bg-gray-800/60 hover:bg-gray-700/80"
+            >
+              <MoreVertical className="h-4 w-4 text-gray-300" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-40 bg-gray-800 border-gray-700"
+          >
+            <DropdownMenuItem
               onClick={() => onEdit(user)}
-              size="icon"
-              variant="secondary"
-              className="h-10 w-10 rounded-full bg-neutral-800/80 hover:bg-neutral-700 border border-neutral-700 transition-all duration-300 hover:scale-110"
-              title="Edit Profile"
+              className="text-gray-200 focus:text-white focus:bg-gray-700"
             >
-              <Pencil className="h-5 w-5 text-neutral-300 hover:text-white" />
-            </Button>
-            <Button
+              <Pencil className="mr-2 h-4 w-4" />
+              Edit Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem
               onClick={() => setIsDeleteModalOpen(true)}
-              size="icon"
-              variant="destructive"
-              className="h-10 w-10 rounded-full bg-red-900/80 hover:bg-red-800 border border-red-700 transition-all duration-300 hover:scale-110"
-              title="Delete Profile"
+              className="text-red-400 focus:text-red-300 focus:bg-red-900/50"
             >
-              <Trash2 className="h-5 w-5 text-red-300 hover:text-white" />
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="p-5 space-y-3 relative z-[2]">
-          <div className="flex justify-between items-start">
-            <h2 className="text-xl font-bold text-neutral-100 tracking-tight max-w-[70%] truncate">
-              {user.name}
-            </h2>
-            {user.verified && (
-              <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full text-xs">
-                Verified
-              </span>
-            )}
-          </div>
-          <p className="text-neutral-400 text-sm line-clamp-2 min-h-[2.5rem]">
-            {user.description || "No description available"}
-          </p>
-        </CardContent>
-        <CardFooter className="flex items-center space-x-2 text-neutral-500 pt-3 border-t border-neutral-800">
-          <CalendarDays className="w-4 h-4" />
-          <span className="text-xs">
-            Joined{" "}
-            {new Date(user.createdAt).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </span>
-        </CardFooter>
-      </Card>
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete Profile
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
-        <DialogContent className="bg-neutral-900 text-neutral-100">
+        <DialogContent className="bg-gray-900 text-gray-100 border-gray-700">
           <DialogHeader>
             <DialogTitle>Confirm Deletion</DialogTitle>
-            <DialogDescription className="text-neutral-400">
+            <DialogDescription className="text-gray-400">
               Are you sure you want to delete this user profile? This action
               cannot be undone.
             </DialogDescription>
@@ -126,15 +137,17 @@ const BookingProfileCard = ({
           <DialogFooter className="sm:justify-start">
             <Button
               type="button"
-              variant="secondary"
+              variant="outline"
               onClick={() => setIsDeleteModalOpen(false)}
+              className="bg-gray-800 text-gray-200 hover:bg-gray-700 border-gray-600"
             >
               Cancel
             </Button>
             <Button
               type="button"
               variant="destructive"
-              onClick={() => handleDelete(user.id) as any}
+              onClick={() => handleDelete(user.id)}
+              className="bg-red-600 hover:bg-red-700 text-white"
             >
               Delete
             </Button>

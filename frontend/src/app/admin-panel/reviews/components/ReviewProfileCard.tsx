@@ -101,17 +101,6 @@ const ReviewProfileCard = ({
             {user.description || "No description available"}
           </p>
         </CardContent>
-        <CardFooter className="flex items-center space-x-2 text-neutral-500 pt-3 border-t border-neutral-800">
-          <CalendarDays className="w-4 h-4" />
-          <span className="text-xs">
-            Joined{" "}
-            {new Date(user.createdAt).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </span>
-        </CardFooter>
       </Card>
 
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
