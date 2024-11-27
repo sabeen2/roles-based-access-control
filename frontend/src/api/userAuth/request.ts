@@ -1,4 +1,3 @@
-import { makeHttpRequest } from "@/utils/http/make-http-request";
 import { apiList } from "..";
 
 const { userLogin } = apiList.userAuth;
