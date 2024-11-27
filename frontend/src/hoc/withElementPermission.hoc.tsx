@@ -23,7 +23,7 @@ interface UserPermissions {
 
 interface PermissionWrapperProps {
   children: JSX.Element;
-  componentName: string;
+  componentName: "Authors" | "Reviews" | "Bookings" | "ManageUsers";
   operationType: "create" | "read" | "update" | "delete";
 }
 

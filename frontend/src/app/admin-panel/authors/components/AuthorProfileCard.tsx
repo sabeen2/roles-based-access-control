@@ -17,6 +17,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import AuthorFormModal from "./AuthorFormModal";
+import PermissionWrapper from "@/hoc/withElementPermission.hoc";
 
 const AuthorProfileCard = ({
   user,
@@ -87,24 +88,34 @@ const AuthorProfileCard = ({
                 )}
               </div>
               <div className="flex space-x-2">
-                <Button
-                  onClick={() => onEdit(user)}
-                  size="icon"
-                  variant="secondary"
-                  className="h-10 w-10 rounded-full bg-neutral-800/80 hover:bg-neutral-700 border border-neutral-600 transition-all duration-300 hover:scale-110"
-                  title="Edit Profile"
+                <PermissionWrapper
+                  operationType="update"
+                  componentName="Authors"
                 >
-                  <Pencil className="h-5 w-5 text-neutral-300 hover:text-white" />
-                </Button>
-                <Button
-                  onClick={() => setIsDeleteModalOpen(true)}
-                  size="icon"
-                  variant="destructive"
-                  className="h-10 w-10 rounded-full bg-red-900/80 hover:bg-red-800 border border-red-700 transition-all duration-300 hover:scale-110"
-                  title="Delete Profile"
+                  <Button
+                    onClick={() => onEdit(user)}
+                    size="icon"
+                    variant="secondary"
+                    className="h-10 w-10 rounded-full bg-neutral-800/80 hover:bg-neutral-700 border border-neutral-600 transition-all duration-300 hover:scale-110"
+                    title="Edit Profile"
+                  >
+                    <Pencil className="h-5 w-5 text-neutral-300 hover:text-white" />
+                  </Button>
+                </PermissionWrapper>
+                <PermissionWrapper
+                  operationType="delete"
+                  componentName="Authors"
                 >
-                  <Trash2 className="h-5 w-5 text-red-300 hover:text-white" />
-                </Button>
+                  <Button
+                    onClick={() => setIsDeleteModalOpen(true)}
+                    size="icon"
+                    variant="destructive"
+                    className="h-10 w-10 rounded-full bg-red-900/80 hover:bg-red-800 border border-red-700 transition-all duration-300 hover:scale-110"
+                    title="Delete Profile"
+                  >
+                    <Trash2 className="h-5 w-5 text-red-300 hover:text-white" />
+                  </Button>
+                </PermissionWrapper>
               </div>
             </div>
             <div className="space-y-2">
