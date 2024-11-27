@@ -4,7 +4,8 @@ import { apiList } from "..";
 import { makeHttpRequest } from "@/utils/http/make-http-request";
 import { IBookingRequest } from "@/schema/bookings.schema";
 
-const { getBookings, addBookings, updateBooking } = apiList.booking;
+const { getBookings, addBookings, updateBooking, deleteBooking } =
+  apiList.booking;
 
 export const useGetBookings = () => {
   return useQuery({
@@ -33,8 +34,8 @@ export const useUpdateBooking = () => {
 
 export const useDeleteBooking = () => {
   return useMutation({
-    mutationFn: (requestData: { bookingId: string }) =>
-      makeHttpRequest(updateBooking, {
+    mutationFn: (requestData: { id: string }) =>
+      makeHttpRequest(deleteBooking, {
         requestData,
       }),
   });

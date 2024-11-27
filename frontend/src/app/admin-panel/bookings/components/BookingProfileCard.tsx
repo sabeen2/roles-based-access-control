@@ -1,7 +1,7 @@
 import { CalendarDays, Pencil, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import AuthorFormModal from "./AuthorFormModal";
+import BookingFormModal from "./BookingFormModal";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,29 +17,29 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useDeleteAuthor } from "@/api/authors/queries";
+import { useDeleteBooking } from "@/api/bookings/queries";
 import { message } from "antd";
 
-const AuthorProfileCard = ({
+const BookingProfileCard = ({
   user,
-  refetchAuthorData,
+  refetchBookingData,
 }: {
   user: any;
-  refetchAuthorData?: any;
+  refetchBookingData?: any;
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { mutate: deleteAuthor } = useDeleteAuthor();
+  const { mutate: deleteBooking } = useDeleteBooking();
 
   const handleDelete = (id: string) => {
     let payload = {
       id,
     };
-    deleteAuthor(payload, {
+    deleteBooking(payload, {
       onSuccess: () => {
-        message.success(` Deleted Author Sucessfully`);
-        refetchAuthorData();
+        message.success(` Deleted Booking Sucessfully`);
+        refetchBookingData();
         setIsDeleteModalOpen(false);
       },
       onError: (err) => {
@@ -98,7 +98,7 @@ const AuthorProfileCard = ({
             )}
           </div>
           <p className="text-neutral-400 text-sm line-clamp-2 min-h-[2.5rem]">
-            {user.about || "No description available"}
+            {user.description || "No description available"}
           </p>
         </CardContent>
         <CardFooter className="flex items-center space-x-2 text-neutral-500 pt-3 border-t border-neutral-800">
@@ -143,8 +143,8 @@ const AuthorProfileCard = ({
       </Dialog>
 
       {isModalOpen && (
-        <AuthorFormModal
-          refetchAuthorData={refetchAuthorData}
+        <BookingFormModal
+          refetchBookingData={refetchBookingData}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           user={selectedUser}
@@ -154,4 +154,4 @@ const AuthorProfileCard = ({
   );
 };
 
-export default AuthorProfileCard;
+export default BookingProfileCard;

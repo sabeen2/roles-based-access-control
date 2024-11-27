@@ -3,3 +3,10 @@ export interface IBookingRequest {
   name: string;
   description: string;
 }
+
+export interface IBookingInterface {
+  id?: string;
+  name: string;
+  description: string;
+  createdAt: string;
+}

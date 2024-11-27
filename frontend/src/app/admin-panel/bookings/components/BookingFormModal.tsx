@@ -9,32 +9,32 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useAddAuthor, useUpdateAuthor } from "@/api/authors/queries";
+import { useAddBooking, useUpdateBooking } from "@/api/bookings/queries";
 import { message } from "antd";
 
-interface AddAuthorModalProps {
-  refetchAuthorData: () => void;
+interface AddBookingModalProps {
+  refetchBookingData: () => void;
   isOpen: boolean;
   onClose: () => void;
   user?: any; // Add user prop to pass selected user data
 }
 
-const AuthorFormModal: React.FC<AddAuthorModalProps> = ({
-  refetchAuthorData,
+const BookingFormModal: React.FC<AddBookingModalProps> = ({
+  refetchBookingData,
   isOpen,
   onClose,
   user,
 }) => {
   const { register, handleSubmit, reset } = useForm();
-  const { mutate: addNewAuthor, isPending: isAddingAuthor } = useAddAuthor();
-  const { mutate: updateAuthor, isPending: isUpdatingAuthor } =
-    useUpdateAuthor();
+  const { mutate: addNewBooking, isPending: isAddingBooking } = useAddBooking();
+  const { mutate: updateBooking, isPending: isUpdatingBooking } =
+    useUpdateBooking();
 
   useEffect(() => {
     if (user) {
       reset({
         name: user.name,
-        about: user.about,
+        description: user.description,
       });
     }
   }, [user, reset]);
@@ -44,12 +44,12 @@ const AuthorFormModal: React.FC<AddAuthorModalProps> = ({
       let payload = {
         id: user.id,
         name: data.name,
-        about: data.about,
+        description: data.description,
       };
-      updateAuthor(payload, {
+      updateBooking(payload, {
         onSuccess: () => {
-          message.success(` Updated Author Sucessfully`);
-          refetchAuthorData();
+          message.success(` Updated Booking Sucessfully`);
+          refetchBookingData();
 
           reset();
           onClose();
@@ -61,12 +61,12 @@ const AuthorFormModal: React.FC<AddAuthorModalProps> = ({
     } else {
       let payload = {
         name: data.name,
-        about: data.about,
+        description: data.description,
       };
-      addNewAuthor(payload, {
+      addNewBooking(payload, {
         onSuccess: () => {
-          message.success(`Added New Author Sucessfully`);
-          refetchAuthorData();
+          message.success(`Added New Booking Sucessfully`);
+          refetchBookingData();
           reset();
           onClose();
         },
@@ -96,26 +96,26 @@ const AuthorFormModal: React.FC<AddAuthorModalProps> = ({
             <Input
               id="name"
               {...register("name", { required: true })}
-              placeholder="Enter author's name"
+              placeholder="Enter booking's name"
               className="bg-gray-900 border-gray-600 text-white placeholder-gray-400"
             />
           </div>
           <div className="space-y-2">
             <label
-              htmlFor="about"
+              htmlFor="description"
               className="text-sm font-medium leading-none text-white peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              About
+              Description
             </label>
             <Textarea
-              id="about"
-              {...register("about", { required: true })}
-              placeholder="Enter author's bio"
+              id="description"
+              {...register("description", { required: true })}
+              placeholder="Enter booking's bio"
               className="bg-gray-900 border-gray-600 text-white placeholder-gray-400"
             />
           </div>
           <Button
-            disabled={isAddingAuthor || isUpdatingAuthor}
+            disabled={isAddingBooking || isUpdatingBooking}
             type="submit"
             className="w-full bg-blue-700 text-white hover:bg-blue-600 border-gray-600 border"
           >
@@ -127,4 +127,4 @@ const AuthorFormModal: React.FC<AddAuthorModalProps> = ({
   );
 };
 
-export default AuthorFormModal;
+export default BookingFormModal;

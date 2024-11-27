@@ -18,7 +18,7 @@ const review = {
   updateReview: {
     controllerName: `${reviewPrefix}/update-review`,
     queryKeyName: "UPDATE_REVIEW",
-    requestMethod: RequestMethod.POST,
+    requestMethod: RequestMethod.PUT,
     requestAuthType: RequestAuthType.AUTH,
   },
   deleteReview: {

@@ -1,7 +1,8 @@
 import React from "react";
+import BookingList from "./components/BookingList";
 
 const BookingPage = () => {
-  return <div className="text-white">BookingPage</div>;
+  return <BookingList />;
 };
 
 export default BookingPage;

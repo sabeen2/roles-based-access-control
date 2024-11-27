@@ -18,7 +18,7 @@ const booking = {
   updateBooking: {
     controllerName: `${bookingPrefix}/update-booking`,
     queryKeyName: "UPDATE_BOOKING",
-    requestMethod: RequestMethod.POST,
+    requestMethod: RequestMethod.PUT,
     requestAuthType: RequestAuthType.AUTH,
   },
   deleteBooking: {
