@@ -2,39 +2,39 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { apiList } from "..";
 import { makeHttpRequest } from "@/utils/http/make-http-request";
-import { IAuthorRequest } from "@/schema/authors.schema";
+import { IReviewRequest } from "@/schema/reviews.schema";
 
-const { getAuthors, addAuthors, updateAuthor } = apiList.author;
+const { getReviews, addReviews, updateReview } = apiList.review;
 
-export const useGetAuthors = () => {
+export const useGetReviews = () => {
   return useQuery({
-    queryKey: [getAuthors.queryKeyName],
-    queryFn: () => makeHttpRequest(getAuthors),
+    queryKey: [getReviews.queryKeyName],
+    queryFn: () => makeHttpRequest(getReviews),
   });
 };
 
-export const useAddAuthor = () => {
+export const useAddReview = () => {
   return useMutation({
-    mutationFn: (requestData: IAuthorRequest) =>
-      makeHttpRequest(addAuthors, {
+    mutationFn: (requestData: IReviewRequest) =>
+      makeHttpRequest(addReviews, {
         requestData,
       }),
   });
 };
 
-export const useUpdateAuthor = () => {
+export const useUpdateReview = () => {
   return useMutation({
-    mutationFn: (requestData: IAuthorRequest) =>
-      makeHttpRequest(updateAuthor, {
+    mutationFn: (requestData: IReviewRequest) =>
+      makeHttpRequest(updateReview, {
         requestData,
       }),
   });
 };
 
-export const useDeleteAuthor = () => {
+export const useDeleteReview = () => {
   return useMutation({
-    mutationFn: (requestData: { authorId: string }) =>
-      makeHttpRequest(updateAuthor, {
+    mutationFn: (requestData: { reviewId: string }) =>
+      makeHttpRequest(updateReview, {
         requestData,
       }),
   });

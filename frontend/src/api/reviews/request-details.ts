@@ -1,32 +1,32 @@
 import { RequestAuthType, RequestMethod } from "@/schema/http.schema";
 
-const authorPrefix = "author";
+const reviewPrefix = "review";
 
-const author = {
-  getAuthors: {
-    controllerName: `${authorPrefix}/get-authors`,
-    queryKeyName: "GET_AUTHORS",
+const review = {
+  getReviews: {
+    controllerName: `${reviewPrefix}/get-reviews`,
+    queryKeyName: "GET_REVIEWS",
     requestMethod: RequestMethod.GET,
     requestAuthType: RequestAuthType.AUTH,
   },
-  addAuthors: {
-    controllerName: `${authorPrefix}/create-author`,
-    queryKeyName: "ADD_AUTHOR",
+  addReviews: {
+    controllerName: `${reviewPrefix}/create-review`,
+    queryKeyName: "ADD_REVIEW",
     requestMethod: RequestMethod.POST,
     requestAuthType: RequestAuthType.AUTH,
   },
-  updateAuthor: {
-    controllerName: `${authorPrefix}/update-author`,
-    queryKeyName: "UPDATE_AUTHOR",
+  updateReview: {
+    controllerName: `${reviewPrefix}/update-review`,
+    queryKeyName: "UPDATE_REVIEW",
     requestMethod: RequestMethod.POST,
     requestAuthType: RequestAuthType.AUTH,
   },
-  deleteAuthor: {
-    controllerName: `${authorPrefix}/delete-author`,
-    queryKeyName: "DELETE_AUTHOR",
+  deleteReview: {
+    controllerName: `${reviewPrefix}/delete-review`,
+    queryKeyName: "DELETE_REVIEW",
     requestMethod: RequestMethod.POST,
     requestAuthType: RequestAuthType.AUTH,
   },
 };
 
-export default author;
+export default review;
