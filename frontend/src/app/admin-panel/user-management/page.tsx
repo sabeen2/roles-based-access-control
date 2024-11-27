@@ -1,9 +1,12 @@
 "use client";
+import { useGetAllUsers } from "@/api/user-management/queries";
 import { withComponentRoles } from "@/hoc/withComponentRoles.hoc";
-import React from "react";
+import ManagementTable from "./components/ManagementTable";
 
 const UserManagementPage = () => {
-  return <div className="text-white">UserManagementPage</div>;
+  const { data: allUsersData } = useGetAllUsers();
+  console.log(allUsersData?.users);
+  return <ManagementTable />;
 };
 
 export default withComponentRoles(UserManagementPage, "ManageUsers");

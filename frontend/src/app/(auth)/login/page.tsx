@@ -29,7 +29,7 @@ const LoginPage = () => {
     setPassword(credentials.password);
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: { email: string; password: string }) => {
     let payload = {
       email: values.email,
       password: values.password,

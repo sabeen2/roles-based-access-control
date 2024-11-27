@@ -1,22 +1,23 @@
 "use client";
+
 import { useGetUserRole } from "@/api/userAuth/queries";
-import { Result, Spin, Empty } from "antd";
+import { Skeleton, Result } from "antd";
+import React from "react";
 
 export const withComponentRoles = (
   WrappedComponent: React.ComponentType<any>,
-  componentName: any
+  componentName: string
 ) => {
   const ComponentWithRole = (props: any) => {
     const { data: userRolesData, isLoading: loadingUserRoles } =
       useGetUserRole();
 
-    const hasRole = (userRolesData?.data?.role?.permissions || []).find(
-      (item: any) => item?.sideBarItem === componentName
-    )?.canRead;
+    const hasRole = (userRolesData?.data?.role?.permissions || []).some(
+      (item: any) => item?.sideBarItem === componentName && item?.canRead
+    );
 
     const centeredStyle = {
-      height: "calc(100svh - 64px)",
-      background: "white",
+      height: "calc(100svh - 150px)",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -25,11 +26,9 @@ export const withComponentRoles = (
     return (
       <>
         {loadingUserRoles ? (
-          <Spin>
-            <div style={centeredStyle}>
-              <Empty />
-            </div>
-          </Spin>
+          <div style={centeredStyle}>
+            <Skeleton active />
+          </div>
         ) : hasRole ? (
           <WrappedComponent {...props} />
         ) : (
@@ -38,10 +37,22 @@ export const withComponentRoles = (
               ...centeredStyle,
               display: "grid",
               placeContent: "center",
+              color: "white",
             }}
-            status="404"
-            title="404"
-            subTitle="Sorry, the page you visited does not exist."
+            status="403"
+            title={
+              <span
+                className="text-[8rem] font-semibold"
+                style={{ color: "white" }}
+              >
+                Access Denied
+              </span>
+            }
+            subTitle={
+              <span className=" text-md md:text-xl" style={{ color: "white" }}>
+                Sorry, you don't have permission to access "{componentName}".
+              </span>
+            }
           />
         )}
       </>

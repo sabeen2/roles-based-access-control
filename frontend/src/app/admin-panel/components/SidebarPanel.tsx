@@ -189,7 +189,7 @@ const SidebarPanel: React.FC<AdminLayoutProps> = ({ children }) => {
             {/* Drawer Navigation */}
             <div className="p-4">
               <div className="space-y-2">
-                {sidebarItems.map((item) => (
+                {filteredSidebarItems.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => {
