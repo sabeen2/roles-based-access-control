@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import AuthorFormModal from "./AuthorFormModal";
 import AuthorProfileCard from "./AuthorProfileCard";
-import { withComponentRoles } from "../../../../hoc/withComponentRoles";
+import { withComponentRoles } from "../../../../hoc/withComponentRoles.hoc";
 
 const AuthorList = () => {
   const {

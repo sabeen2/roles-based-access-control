@@ -7,7 +7,7 @@ import { IBookingInterface } from "@/schema/bookings.schema";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import BookingFormModal from "./BookingFormModal";
-import { withComponentRoles } from "../../../../hoc/withComponentRoles";
+import { withComponentRoles } from "../../../../hoc/withComponentRoles.hoc";
 
 const BookingList = () => {
   const {

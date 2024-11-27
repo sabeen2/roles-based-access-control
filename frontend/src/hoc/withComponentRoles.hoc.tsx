@@ -1,5 +1,5 @@
 "use client";
-import { useUserRoles } from "@/providers/UserRolesProvider";
+import { useGetUserRole } from "@/api/userAuth/queries";
 import { Result, Spin, Empty } from "antd";
 
 export const withComponentRoles = (
@@ -7,9 +7,10 @@ export const withComponentRoles = (
   componentName: any
 ) => {
   const ComponentWithRole = (props: any) => {
-    const { userRolesData, loadingUserRoles } = useUserRoles();
+    const { data: userRolesData, isLoading: loadingUserRoles } =
+      useGetUserRole();
 
-    const hasRole = (userRolesData?.role?.permissions || []).find(
+    const hasRole = (userRolesData?.data?.role?.permissions || []).find(
       (item: any) => item?.sideBarItem === componentName
     )?.canRead;
 

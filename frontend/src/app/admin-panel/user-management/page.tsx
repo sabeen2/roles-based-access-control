@@ -1,5 +1,5 @@
 "use client";
-import { withComponentRoles } from "@/hoc/withComponentRoles";
+import { withComponentRoles } from "@/hoc/withComponentRoles.hoc";
 import React from "react";
 
 const UserManagementPage = () => {
