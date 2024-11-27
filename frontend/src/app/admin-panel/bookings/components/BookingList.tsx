@@ -9,7 +9,11 @@ import { PlusCircle } from "lucide-react";
 import BookingFormModal from "./BookingFormModal";
 
 const BookingList = () => {
-  const { data: bookingData, refetch: refetchBookingData } = useGetBookings();
+  const {
+    data: bookingData,
+    refetch: refetchBookingData,
+    isLoading,
+  } = useGetBookings();
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -31,7 +35,7 @@ const BookingList = () => {
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value.trimStart())}
             placeholder="Search bookings..."
             className="px-3 py-2 rounded-lg border border-gray-300 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -49,21 +53,32 @@ const BookingList = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
-        {filteredBookings?.length > 0 ? (
-          filteredBookings.map((booking: IBookingInterface) => (
-            <BookingProfileCard
-              refetchBookingData={refetchBookingData}
-              key={booking.id}
-              user={booking}
-            />
-          ))
-        ) : (
-          <p className="text-center col-span-full text-gray-400">
-            No bookings found.
-          </p>
-        )}
-      </div>
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div
+              key={index}
+              className="h-40 w-full bg-gray-700 rounded-lg animate-pulse"
+            ></div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+          {filteredBookings?.length > 0 ? (
+            filteredBookings.map((booking: IBookingInterface) => (
+              <BookingProfileCard
+                refetchBookingData={refetchBookingData}
+                key={booking.id}
+                user={booking}
+              />
+            ))
+          ) : (
+            <p className="text-center col-span-full text-gray-400">
+              No bookings found.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
