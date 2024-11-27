@@ -1,32 +1,50 @@
 import { RequestAuthType, RequestMethod } from "@/schema/http.schema";
 
-const authorPrefix = "author";
+const managePrefix = "manage";
 
-const author = {
-  getAuthors: {
-    controllerName: `${authorPrefix}/get-authors`,
-    queryKeyName: "GET_AUTHORS",
+const manage = {
+  addNewRole: {
+    controllerName: `${managePrefix}/add-new-role`,
+    queryKeyName: "ADD_NEW_ROLE",
+    requestMethod: RequestMethod.POST,
+    requestAuthType: RequestAuthType.AUTH,
+  },
+  deleteRole: {
+    controllerName: `${managePrefix}/delete-role`,
+    queryKeyName: "DELETE_ROLE",
+    requestMethod: RequestMethod.POST,
+    requestAuthType: RequestAuthType.AUTH,
+  },
+  getAllRoles: {
+    controllerName: `${managePrefix}/get-all-roles`,
+    queryKeyName: "GET_ALL_ROLES",
     requestMethod: RequestMethod.GET,
     requestAuthType: RequestAuthType.AUTH,
   },
-  addAuthors: {
-    controllerName: `${authorPrefix}/create-author`,
-    queryKeyName: "ADD_AUTHOR",
+  editRole: {
+    controllerName: `${managePrefix}/edit-role`,
+    queryKeyName: "EDIT_ROLE",
     requestMethod: RequestMethod.POST,
     requestAuthType: RequestAuthType.AUTH,
   },
-  updateAuthor: {
-    controllerName: `${authorPrefix}/update-author`,
-    queryKeyName: "UPDATE_AUTHOR",
+  changeUserRole: {
+    controllerName: `${managePrefix}/assign-role`,
+    queryKeyName: "CHANGE_USER_ROLE",
     requestMethod: RequestMethod.POST,
     requestAuthType: RequestAuthType.AUTH,
   },
-  deleteAuthor: {
-    controllerName: `${authorPrefix}/delete-author`,
-    queryKeyName: "DELETE_AUTHOR",
+  getAllUsers: {
+    controllerName: `${managePrefix}/get-all-users`,
+    queryKeyName: "GET_ALL_USERS",
+    requestMethod: RequestMethod.GET,
+    requestAuthType: RequestAuthType.AUTH,
+  },
+  deleteRestrictUser: {
+    controllerName: `${managePrefix}/user-action`,
+    queryKeyName: "DELETE_RESTRICT_USER",
     requestMethod: RequestMethod.POST,
     requestAuthType: RequestAuthType.AUTH,
   },
 };
 
-export default author;
+export default manage;
