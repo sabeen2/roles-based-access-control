@@ -27,9 +27,12 @@ export function middleware(request: NextRequest) {
     (currentPath === paths.getLoginPath() ||
       currentPath === paths.getSignupPath())
   ) {
-    return NextResponse.redirect(
-      new URL(paths.getAdminPanelPath(), request.url)
-    );
+    return NextResponse.redirect(new URL(paths.getAuthorPath(), request.url));
+  }
+
+  // Redirect anyone accessing /admin-panel to /author
+  if (currentPath === paths.getAdminPanelPath()) {
+    return NextResponse.redirect(new URL(paths.getAuthorPath(), request.url));
   }
 
   // Keep user on the homepage regardless of authentication after refresh

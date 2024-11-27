@@ -20,6 +20,12 @@ const userAuth = {
     requestMethod: RequestMethod.POST,
     requestAuthType: RequestAuthType.AUTH,
   },
+  userLogout: {
+    controllerName: `${authPrefix}/logout`,
+    queryKeyName: "USER_LOGOUT",
+    requestMethod: RequestMethod.POST,
+    requestAuthType: RequestAuthType.AUTH,
+  },
 };
 
 export default userAuth;

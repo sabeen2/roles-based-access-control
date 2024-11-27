@@ -14,6 +14,18 @@ const paths = {
   getAdminPanelPath: () => {
     return `/admin-panel`;
   },
+  getAuthorPath: () => {
+    return `/admin-panel/authors`;
+  },
+  getReviewPath: () => {
+    return `/admin-panel/reviews`;
+  },
+  getBookingPath: () => {
+    return `/admin-panel/bookings`;
+  },
+  getUserManagementPath: () => {
+    return `/admin-panel/user-management`;
+  },
 };
 
 export default paths;
