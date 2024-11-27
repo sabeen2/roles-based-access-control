@@ -15,6 +15,7 @@ const {
 
 export const useAddNewRole = () => {
   return useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mutationFn: (requestData: any) =>
       makeHttpRequest(addNewRole, {
         requestData,
@@ -55,6 +56,7 @@ export const useChangeUserRole = () => {
 
 export const useDeleteRestrictUser = () => {
   return useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mutationFn: (requestData: any) =>
       makeHttpRequest(deleteRestrictUser, {
         requestData,

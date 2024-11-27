@@ -1,6 +1,5 @@
 import { RequestAuthType, RequestMethod } from "@/schema/http.schema";
 
-const userPrefix = "user";
 const authPrefix = "auth";
 
 const userAuth = {
