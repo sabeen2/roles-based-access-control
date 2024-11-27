@@ -4,7 +4,7 @@ import { apiList } from "..";
 import { makeHttpRequest } from "@/utils/http/make-http-request";
 import { IReviewRequest } from "@/schema/reviews.schema";
 
-const { getReviews, addReviews, updateReview } = apiList.review;
+const { getReviews, addReviews, updateReview, deleteReview } = apiList.review;
 
 export const useGetReviews = () => {
   return useQuery({
@@ -33,8 +33,8 @@ export const useUpdateReview = () => {
 
 export const useDeleteReview = () => {
   return useMutation({
-    mutationFn: (requestData: { reviewId: string }) =>
-      makeHttpRequest(updateReview, {
+    mutationFn: (requestData: { id: string }) =>
+      makeHttpRequest(deleteReview, {
         requestData,
       }),
   });

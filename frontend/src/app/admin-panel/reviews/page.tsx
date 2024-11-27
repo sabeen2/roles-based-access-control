@@ -1,7 +1,8 @@
 import React from "react";
+import ReviewList from "./components/ReviewList";
 
 const ReviewPage = () => {
-  return <div className="text-white">ReviewPage</div>;
+  return <ReviewList />;
 };
 
 export default ReviewPage;
