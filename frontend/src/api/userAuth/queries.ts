@@ -28,6 +28,7 @@ export const useGetUserRole = () => {
   return useQuery({
     queryKey: [getUserRole.queryKeyName],
     queryFn: () => makeHttpRequest(getUserRole),
+    staleTime: 0,
   });
 };
 
