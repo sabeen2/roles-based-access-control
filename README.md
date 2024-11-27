@@ -18,7 +18,6 @@ This is a full-stack Role-Based Access Control (RBAC) project that provides dyna
 ## ✨ Features
 
 - Dynamic role and permission management
-- Admin panel for user and role administration
 - Two-level access control:
   - Element-level access management
   - Component-level access management
