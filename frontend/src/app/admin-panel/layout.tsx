@@ -1,5 +1,4 @@
 "use client";
-import UserRolesProvider from "@/providers/UserRolesProvider";
 import AdminPanel from "./components/SidebarPanel";
 
 export default function AdminLayout({
@@ -7,9 +6,5 @@ export default function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <UserRolesProvider>
-      <AdminPanel>{children}</AdminPanel>
-    </UserRolesProvider>
-  );
+  return <AdminPanel>{children}</AdminPanel>;
 }

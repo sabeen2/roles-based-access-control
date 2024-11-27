@@ -39,18 +39,22 @@ const deleteRestrictUser = async (
       });
       return res
         .status(200)
-        .json({ success: true, message: "User deleted sucessfully" });
+        .json({ success: true, message: "User deleted successfully" });
     }
 
     // If restrictUser is true, update the restricted field to true
-    if (restrictUser) {
+    // If restrictUser is false, update the restricted field to false
+    if (restrictUser !== undefined) {
       await prisma.user.update({
         where: { id: userId },
-        data: { restricted: true },
+        data: { restricted: restrictUser },
       });
-      return res
-        .status(200)
-        .json({ success: true, message: "User restricted successfully" });
+      return res.status(200).json({
+        success: true,
+        message: restrictUser
+          ? "User restricted successfully"
+          : "User restriction removed successfully",
+      });
     }
 
     // If neither action is specified, return an error

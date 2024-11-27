@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { useDeleteReview } from "@/api/reviews/queries";
 import { message } from "antd";
+import PermissionWrapper from "@/hoc/withElementPermission.hoc";
 
 const ReviewProfileCard = ({
   user,
@@ -66,24 +67,29 @@ const ReviewProfileCard = ({
             className="absolute h-full w-full object-cover group-hover:scale-105 transition-transform duration-300 filter brightness-90"
           />
           <div className="absolute top-4 right-4 z-10 flex space-x-2">
-            <Button
-              onClick={() => onEdit(user)}
-              size="icon"
-              variant="secondary"
-              className="h-10 w-10 rounded-full bg-neutral-800/80 hover:bg-neutral-700 border border-neutral-700 transition-all duration-300 hover:scale-110"
-              title="Edit Profile"
-            >
-              <Pencil className="h-5 w-5 text-neutral-300 hover:text-white" />
-            </Button>
-            <Button
-              onClick={() => setIsDeleteModalOpen(true)}
-              size="icon"
-              variant="destructive"
-              className="h-10 w-10 rounded-full bg-red-900/80 hover:bg-red-800 border border-red-700 transition-all duration-300 hover:scale-110"
-              title="Delete Profile"
-            >
-              <Trash2 className="h-5 w-5 text-red-300 hover:text-white" />
-            </Button>
+            <PermissionWrapper operationType="update" componentName="Reviews">
+              <Button
+                onClick={() => onEdit(user)}
+                size="icon"
+                variant="secondary"
+                className="h-10 w-10 rounded-full bg-neutral-800/80 hover:bg-neutral-700 border border-neutral-700 transition-all duration-300 hover:scale-110"
+                title="Edit Profile"
+              >
+                <Pencil className="h-5 w-5 text-neutral-300 hover:text-white" />
+              </Button>
+            </PermissionWrapper>
+
+            <PermissionWrapper operationType="delete" componentName="Reviews">
+              <Button
+                onClick={() => setIsDeleteModalOpen(true)}
+                size="icon"
+                variant="destructive"
+                className="h-10 w-10 rounded-full bg-red-900/80 hover:bg-red-800 border border-red-700 transition-all duration-300 hover:scale-110"
+                title="Delete Profile"
+              >
+                <Trash2 className="h-5 w-5 text-red-300 hover:text-white" />
+              </Button>
+            </PermissionWrapper>
           </div>
         </CardHeader>
         <CardContent className="p-5 space-y-3 relative z-[2]">

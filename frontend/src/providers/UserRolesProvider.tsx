@@ -29,13 +29,18 @@ export const useUserRoles = () => {
 const UserRolesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { data: userRolesData, isLoading: loadingUserRoles } = useGetUserRole();
 
-  const value = useMemo(
-    () => ({
-      userRolesData: userRolesData?.data,
-      loadingUserRoles,
-    }),
-    [userRolesData, loadingUserRoles]
-  );
+  // const value = useMemo(
+  //   () => ({
+  //     userRolesData: userRolesData?.data,
+  //     loadingUserRoles,
+  //   }),
+  //   [userRolesData, loadingUserRoles]
+  // );
+
+  const value = {
+    userRolesData: userRolesData?.data,
+    loadingUserRoles,
+  };
 
   return (
     <UserRolesContext.Provider value={value}>

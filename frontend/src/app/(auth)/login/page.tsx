@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, Button, message } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { ArrowRight, Command } from "lucide-react";
@@ -14,16 +14,30 @@ const LoginPage = () => {
   const router = useRouter();
 
   const { mutate: loginUser, isPending: isLoggingIn } = useUserLogin();
+  const [password, setPassword] = useState("");
 
-  const onFinish = (values: any) => {
+  const handleQuickLogin = (role: "admin" | "user") => {
+    const credentials =
+      role === "admin"
+        ? { email: "admin@yopmail.com", password: "Root@kali1234" }
+        : { email: "kevin@yopmail.com", password: "Root@kali1234" };
+
+    loginForm.setFieldsValue({
+      email: credentials.email,
+      password: credentials.password,
+    });
+    setPassword(credentials.password);
+  };
+
+  const onFinish = (values: { email: string; password: string }) => {
     let payload = {
       email: values.email,
       password: values.password,
     };
     loginUser(payload, {
       onSuccess: () => {
-        message.success(`User Logged in Sucessfully`);
-        router.push(paths.getAdminPanelPath());
+        message.success(`User Logged in Successfully`);
+        router.push(paths.getAuthorPath());
       },
       onError: (err) => {
         message.error(`Failed ${err}`);
@@ -57,6 +71,26 @@ const LoginPage = () => {
               </p>
             </div>
 
+            {/* Quick Login Buttons */}
+            <div className="flex space-x-4 mb-4 justify-center">
+              <button
+                onClick={() => handleQuickLogin("admin")}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm"
+              >
+                Login as Admin
+              </button>
+              <button
+                onClick={() => handleQuickLogin("user")}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm"
+              >
+                Login as User
+              </button>
+            </div>
+            <p className="text-xs sm:text-sm text-yellow-400 mb-2 text-center py-4">
+              Alternatively, you can create a new user account and manage its
+              privileges from the admin login.
+            </p>
+
             <Form
               form={loginForm}
               onFinish={onFinish}
@@ -72,7 +106,7 @@ const LoginPage = () => {
               >
                 <input
                   placeholder="Email Address"
-                  className="bg-transparent text-white placeholder:text-white/30 placeholder:text-white w-full px-4"
+                  className="bg-transparent text-white placeholder:text-white/30 w-full px-4"
                   style={{
                     height: "44px",
                     borderRadius: "10px",
@@ -89,6 +123,8 @@ const LoginPage = () => {
               >
                 <div className="relative">
                   <input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     className="bg-transparent text-white placeholder:text-white/30 w-full px-4"
@@ -120,7 +156,6 @@ const LoginPage = () => {
               <Form.Item>
                 <button
                   disabled={isLoggingIn}
-                  // onClick={() => loginForm.submit()}
                   className="w-full h-10 sm:h-12 rounded-xl flex items-center justify-center space-x-2 font-semibold text-gray-100"
                   style={{
                     background: "linear-gradient(to right, #3b82f6, #2563eb)",

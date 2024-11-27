@@ -27,6 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import PermissionWrapper from "@/hoc/withElementPermission.hoc";
 
 const BookingProfileCard = ({
   user,
@@ -107,20 +108,24 @@ const BookingProfileCard = ({
             align="end"
             className="w-40 bg-gray-800 border-gray-700"
           >
-            <DropdownMenuItem
-              onClick={() => onEdit(user)}
-              className="text-gray-200 focus:text-white focus:bg-gray-700"
-            >
-              <Pencil className="mr-2 h-4 w-4" />
-              Edit Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => setIsDeleteModalOpen(true)}
-              className="text-red-400 focus:text-red-300 focus:bg-red-900/50"
-            >
-              <Trash2 className="mr-2 h-4 w-4" />
-              Delete Profile
-            </DropdownMenuItem>
+            <PermissionWrapper operationType="update" componentName="Bookings">
+              <DropdownMenuItem
+                onClick={() => onEdit(user)}
+                className="text-gray-200 focus:text-white focus:bg-gray-700"
+              >
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit Profile
+              </DropdownMenuItem>
+            </PermissionWrapper>
+            <PermissionWrapper operationType="delete" componentName="Bookings">
+              <DropdownMenuItem
+                onClick={() => setIsDeleteModalOpen(true)}
+                className="text-red-400 focus:text-red-300 focus:bg-red-900/50"
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete Profile
+              </DropdownMenuItem>
+            </PermissionWrapper>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
