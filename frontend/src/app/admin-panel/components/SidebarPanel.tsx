@@ -35,27 +35,31 @@ const SidebarPanel: React.FC<AdminLayoutProps> = ({ children }) => {
       icon: BookOpen,
       label: "Author",
       link: paths.getAuthorPath(),
+      itemName: "Authors",
     },
     {
       icon: Users,
       label: "Reviews",
       link: paths.getReviewPath(),
+      itemName: "Reviews",
     },
     {
       icon: Calendar,
       label: "Bookings",
       link: paths.getBookingPath(),
+      itemName: "Bookings",
     },
     {
       icon: UserCog,
       label: "User Management",
       link: paths.getUserManagementPath(),
+      itemName: "ManageUsers",
     },
   ];
   const filteredSidebarItems = sidebarItems.filter((item) =>
     permissions.some(
       (permission: { sideBarItem: string; canRead: boolean }) =>
-        permission.sideBarItem === item.label && permission.canRead
+        permission.sideBarItem === item.itemName && permission.canRead
     )
   );
 
@@ -96,7 +100,7 @@ const SidebarPanel: React.FC<AdminLayoutProps> = ({ children }) => {
 
         <div className="flex-1 px-4 py-6">
           <div className="space-y-2">
-            {sidebarItems.map((item) => (
+            {filteredSidebarItems.map((item) => (
               <Link
                 href={item.link}
                 key={item.label}

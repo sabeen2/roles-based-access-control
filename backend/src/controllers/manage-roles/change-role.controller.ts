@@ -35,7 +35,7 @@ const changeUserRole = async (req: Request, res: Response): Promise<any> => {
     await prisma.user.update({
       where: { id: userId },
       data: { roleId },
-      include: { role: true }, // Include the updated role details
+      include: { role: true },
     });
 
     return res.status(200).json({

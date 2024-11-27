@@ -7,6 +7,7 @@ import { IReviewInterface } from "@/schema/reviews.schema";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import ReviewFormModal from "./ReviewFormModal";
+import { withComponentRoles } from "../../../../hoc/withComponentRoles";
 
 const ReviewList = () => {
   const {
@@ -83,4 +84,4 @@ const ReviewList = () => {
   );
 };
 
-export default ReviewList;
+export default withComponentRoles(ReviewList, "Reviews");

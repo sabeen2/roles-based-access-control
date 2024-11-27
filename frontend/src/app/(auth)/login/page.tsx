@@ -23,7 +23,7 @@ const LoginPage = () => {
     loginUser(payload, {
       onSuccess: () => {
         message.success(`User Logged in Sucessfully`);
-        router.push(paths.getAdminPanelPath());
+        router.push(paths.getAuthorPath());
       },
       onError: (err) => {
         message.error(`Failed ${err}`);

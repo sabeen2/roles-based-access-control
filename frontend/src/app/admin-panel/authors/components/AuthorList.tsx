@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetAuthors } from "@/api/authors/queries";
 import { IAuthorInterface } from "@/schema/authors.schema";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import AuthorFormModal from "./AuthorFormModal";
 import AuthorProfileCard from "./AuthorProfileCard";
+import { withComponentRoles } from "../../../../hoc/withComponentRoles";
 
 const AuthorList = () => {
   const {
@@ -78,4 +79,4 @@ const AuthorList = () => {
   );
 };
 
-export default AuthorList;
+export default withComponentRoles(AuthorList, "Authors");

@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, PropsWithChildren, useEffect } from "react";
+import UserRolesProvider from "./UserRolesProvider";
 
 const AppProvider = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(
@@ -17,7 +18,10 @@ const AppProvider = ({ children }: PropsWithChildren) => {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      {" "}
+      <UserRolesProvider>{children} </UserRolesProvider>
+    </QueryClientProvider>
   );
 };
 

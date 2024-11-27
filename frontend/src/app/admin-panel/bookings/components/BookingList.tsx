@@ -7,6 +7,7 @@ import { IBookingInterface } from "@/schema/bookings.schema";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import BookingFormModal from "./BookingFormModal";
+import { withComponentRoles } from "../../../../hoc/withComponentRoles";
 
 const BookingList = () => {
   const {
@@ -83,4 +84,4 @@ const BookingList = () => {
   );
 };
 
-export default BookingList;
+export default withComponentRoles(BookingList, "Bookings");
