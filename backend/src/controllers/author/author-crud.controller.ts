@@ -65,6 +65,7 @@ export const getAllAuthor = async (
         id: true,
         name: true,
         about: true,
+        createdAt: true,
       },
     });
 

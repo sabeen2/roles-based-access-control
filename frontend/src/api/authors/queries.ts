@@ -4,7 +4,7 @@ import { apiList } from "..";
 import { makeHttpRequest } from "@/utils/http/make-http-request";
 import { IAuthorRequest } from "@/schema/authors.schema";
 
-const { getAuthors, addAuthors, updateAuthor } = apiList.author;
+const { getAuthors, addAuthors, updateAuthor, deleteAuthor } = apiList.author;
 
 export const useGetAuthors = () => {
   return useQuery({
@@ -33,8 +33,8 @@ export const useUpdateAuthor = () => {
 
 export const useDeleteAuthor = () => {
   return useMutation({
-    mutationFn: (requestData: { authorId: string }) =>
-      makeHttpRequest(updateAuthor, {
+    mutationFn: (requestData: { id: string }) =>
+      makeHttpRequest(deleteAuthor, {
         requestData,
       }),
   });

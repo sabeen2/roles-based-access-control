@@ -55,10 +55,7 @@ export const useChangeUserRole = () => {
 
 export const useDeleteRestrictUser = () => {
   return useMutation({
-    mutationFn: (requestData: {
-      userId: string;
-      action: "delete" | "restrict";
-    }) =>
+    mutationFn: (requestData: any) =>
       makeHttpRequest(deleteRestrictUser, {
         requestData,
       }),

@@ -18,7 +18,7 @@ const author = {
   updateAuthor: {
     controllerName: `${authorPrefix}/update-author`,
     queryKeyName: "UPDATE_AUTHOR",
-    requestMethod: RequestMethod.POST,
+    requestMethod: RequestMethod.PUT,
     requestAuthType: RequestAuthType.AUTH,
   },
   deleteAuthor: {
