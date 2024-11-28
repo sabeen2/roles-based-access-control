@@ -15,6 +15,7 @@ import { useForm } from "antd/es/form/Form";
 import { useUserSignup } from "@/api/userAuth/queries";
 import { useRouter } from "next/navigation";
 import paths from "@/utils/paths.utils";
+import Cookies from "js-cookie";
 
 const SignupPage = () => {
   const [signupForm] = useForm();
@@ -31,9 +32,15 @@ const SignupPage = () => {
       confirmPassword: values.confirmPassword,
     };
     signupUser(payload, {
-      onSuccess: () => {
+      onSuccess: async (data) => {
         message.success(`User Registered  Sucessfully`);
-        router.push(paths.getAdminPanelPath());
+        Promise.all([
+          Cookies.set("token", data.cookie, {
+            expires: 7,
+            secure: true,
+            sameSite: "none",
+          }),
+        ]).then(() => router.push(paths.getAdminPanelPath()));
       },
       onError: (err) => {
         message.error(`Failed ${err}`);

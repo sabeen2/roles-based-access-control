@@ -39,7 +39,7 @@ const corsOptions: CorsOptions = {
     origin: string | undefined,
     callback: (err: Error | null, allow?: boolean) => void
   ) => {
-    callback(null, true); // Allow all origins
+    callback(null, true);
   },
   credentials: true,
 };

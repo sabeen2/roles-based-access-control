@@ -59,6 +59,7 @@ export const makeHttpRequest = async (
 
   try {
     const res = await axios.request(config);
+    console.log(res, "Sabeen");
     return res.data;
   } catch (error) {
     let errorMsg = "";

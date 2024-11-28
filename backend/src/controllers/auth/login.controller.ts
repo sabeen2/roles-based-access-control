@@ -68,12 +68,13 @@ export default async function login(req: Request, res: Response): Promise<any> {
 
     // Generate JWT token and set cookie
     const token = CookieMethods.generateJWT(user.email);
-    CookieMethods.setCookie(res, token, 7);
+    // CookieMethods.setCookie(res, token, 7);
 
     // Successful login response
     return res.status(200).json({
       success: true,
       message: "User logged in successfully",
+      token,
       data: {
         email: user.email,
         fullName: user.fullName,

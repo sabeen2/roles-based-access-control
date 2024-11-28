@@ -7,6 +7,7 @@ import { useForm } from "antd/es/form/Form";
 import { useUserLogin } from "@/api/userAuth/queries";
 import { useRouter } from "next/navigation";
 import paths from "@/utils/paths.utils";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const [loginForm] = useForm();
@@ -29,14 +30,19 @@ const LoginPage = () => {
     setPassword(credentials.password);
   };
 
-  const onFinish = (values: { email: string; password: string }) => {
+  const onFinish = async (values: { email: string; password: string }) => {
     let payload = {
       email: values.email,
       password: values.password,
     };
     loginUser(payload, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         message.success(`User Logged in Successfully`);
+        Cookies.set("token", data.token, {
+          expires: 7,
+          secure: true,
+          sameSite: "none",
+        });
         router.push(paths.getAuthorPath());
       },
       onError: (err) => {

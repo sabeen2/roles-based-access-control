@@ -45,7 +45,7 @@ class CookieMethods {
     }
   }
 
-  static setCookie(res: Response, token: string, days: number = 1): void {
+  static setCookie(res: Response, token: string, days: number = 7): void {
     const maxAge = this.DEFAULT_MAX_AGE * days;
     res.cookie("token", token, {
       maxAge,
@@ -54,7 +54,7 @@ class CookieMethods {
       // domain:
       //   process.env.NODE_ENV === "development" ? "localhost" : ".vercel.app",
       // domain: process.env.FRONTEND_URL,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       // path: "/",
     });
   }
