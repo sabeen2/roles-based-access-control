@@ -73,7 +73,7 @@ const SidebarPanel: React.FC<AdminLayoutProps> = ({ children }) => {
       onSuccess: () => {
         message.success(`Logged out sucessfully`);
         Cookies.remove("token", { path: "/" });
-        router.push(paths.homePath());
+        router.push("/logout");
       },
       onError: (error: any) => {
         message.error("Logout failed", error);

@@ -21,17 +21,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // **LOGOUT** logic - Clear cookie and redirect to login page
   if (currentPath === "/logout") {
     const response = NextResponse.redirect(
       new URL(paths.getLoginPath(), request.url)
     );
 
-    // Remove the token cookie by setting it with an immediate expiry date
     response.cookies.set("token", "", {
-      expires: new Date(0), // Setting an expired date to immediately clear the cookie
-      secure: true, // Ensure the cookie is secure
-      sameSite: "none", // SameSite value to ensure it works across requests
+      expires: new Date(0),
+      secure: true,
+      sameSite: "none",
       path: "/",
     });
 
