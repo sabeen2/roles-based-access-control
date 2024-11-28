@@ -50,7 +50,7 @@ class CookieMethods {
     res.cookie("token", token, {
       maxAge,
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
       domain:
         process.env.NODE_ENV === "development"
           ? "localhost"
