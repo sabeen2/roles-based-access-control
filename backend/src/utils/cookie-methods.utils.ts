@@ -52,9 +52,7 @@ class CookieMethods {
       httpOnly: true,
       sameSite: "none",
       domain:
-        process.env.NODE_ENV === "development"
-          ? "localhost"
-          : ".roles-based-access-control.vercel.app",
+        process.env.NODE_ENV === "development" ? "localhost" : ".vercel.app",
       // domain: process.env.FRONTEND_URL,
       // secure: process.env.NODE_ENV !== "development",
     });
