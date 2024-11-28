@@ -14,22 +14,32 @@ import reviewRouter from "./routes/review.router";
 dotenv.config({ path: ".env" });
 
 const app: Application = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
 const apiPrefix = "api/v1";
 
 const allowedOrigin = process.env.FRONTEND_URL;
 // const swaggerDocument = require("./swagger-output.json");
+
+// const corsOptions: CorsOptions = {
+//   origin: (
+//     origin: string | undefined,
+//     callback: (err: Error | null, allow?: boolean) => void
+//   ) => {
+//     if (!origin || origin === allowedOrigin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+// };
 
 const corsOptions: CorsOptions = {
   origin: (
     origin: string | undefined,
     callback: (err: Error | null, allow?: boolean) => void
   ) => {
-    if (!origin || origin === allowedOrigin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
+    callback(null, true); // Allow all origins
   },
   credentials: true,
 };
