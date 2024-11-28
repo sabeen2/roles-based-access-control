@@ -50,11 +50,13 @@ class CookieMethods {
     res.cookie("token", token, {
       maxAge,
       httpOnly: true,
-      // sameSite: "none",
-      // domain:
-      //   process.env.NODE_ENV === "development" ? "localhost" : ".vercel.app",
+      sameSite: "lax",
+      domain:
+        process.env.NODE_ENV === "development"
+          ? "localhost"
+          : "roles-based-access-control.vercel.app",
       // domain: process.env.FRONTEND_URL,
-      // secure: process.env.NODE_ENV !== "development",
+      secure: process.env.NODE_ENV !== "development",
     });
   }
 
