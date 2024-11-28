@@ -19,6 +19,8 @@ import Link from "next/link";
 import { useUserLogout } from "@/api/userAuth/queries";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
@@ -70,6 +72,7 @@ const SidebarPanel: React.FC<AdminLayoutProps> = ({ children }) => {
     logoutUser(undefined, {
       onSuccess: () => {
         message.success(`Logged out sucessfully`);
+        Cookies.remove("token", { path: "/" });
         router.push(paths.homePath());
       },
       onError: (error: any) => {
