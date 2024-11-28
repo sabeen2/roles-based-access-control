@@ -50,7 +50,7 @@ class CookieMethods {
     res.cookie("token", token, {
       maxAge,
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
       secure: process.env.NODE_ENV !== "development",
     });
   }
