@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc",
+    "build": "npm i typescript && tsc",
     "postinstall": "prisma generate",
     "start": "node dist/index.js",
     "dev": "bun run --watch src/index.ts"
