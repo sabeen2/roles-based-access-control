@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const add_role_controller_1 = require("../controllers/manage-roles/add-role.controller");
+const delete_role_controller_1 = require("../controllers/manage-roles/delete-role.controller");
+const protectedRoute_middleware_1 = __importDefault(require("../middlewares/protectedRoute.middleware"));
+const get_all_roles_controller_1 = require("../controllers/manage-roles/get-all-roles.controller");
+const edit_roles_controller_1 = require("../controllers/manage-roles/edit-roles.controller");
+const change_role_controller_1 = __importDefault(require("../controllers/manage-roles/change-role.controller"));
+const get_all_users_controller_1 = __importDefault(require("../controllers/manage-roles/get-all-users.controller"));
+const delete_restrict_user_controller_1 = __importDefault(require("../controllers/manage-roles/delete-restrict-user.controller"));
+const manageRolesRouter = (0, express_1.Router)();
+manageRolesRouter.use(protectedRoute_middleware_1.default);
+manageRolesRouter.post("/add-new-role", add_role_controller_1.addNewRole);
+manageRolesRouter.post("/delete-role", delete_role_controller_1.deleteRole);
+manageRolesRouter.get("/get-all-roles", get_all_roles_controller_1.getAllRoles);
+manageRolesRouter.post("/edit-role", edit_roles_controller_1.editRole);
+manageRolesRouter.post("/assign-role", change_role_controller_1.default);
+manageRolesRouter.get("/get-all-users", get_all_users_controller_1.default);
+manageRolesRouter.post("/user-action", delete_restrict_user_controller_1.default);
+exports.default = manageRolesRouter;

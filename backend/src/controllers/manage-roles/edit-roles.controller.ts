@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import prisma from "../../../prisma/prismaClient";
+import prisma from "../../utils/prismaClient";
 import { SidebarItemsEnum } from "../../schema/manage-users.schema";
 
 interface UpdatePermission {

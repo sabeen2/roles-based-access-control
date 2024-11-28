@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "es2019",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./public"
+    "outDir": "./dist",
+    "rootDir": "./src"
   }
 }

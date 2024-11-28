@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import prisma from "../../../prisma/prismaClient";
+import prisma from "../../utils/prismaClient";
 
 const deleteRestrictUser = async (
   req: Request,
