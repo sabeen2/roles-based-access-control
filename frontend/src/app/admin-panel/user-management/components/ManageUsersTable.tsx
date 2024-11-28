@@ -1,26 +1,5 @@
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { MoreHorizontal, ArrowUpRight, Edit, Trash } from "lucide-react";
+import React, { useState, useEffect, useMemo } from "react";
+
 import { Switch } from "@/components/ui/switch";
 import {
   useDeleteRestrictUser,
@@ -28,6 +7,7 @@ import {
 } from "@/api/user-management/queries";
 import { message } from "antd";
 import DeleteModal from "./DeleteModal";
+import EditUserDialog from "./EditUserDialog";
 
 type Role = {
   id: string;
@@ -46,16 +26,22 @@ export default function ManageUsersTable() {
   const { data: getAllUserData, refetch: refetchAllUsers } = useGetAllUsers();
   const { mutate: deleteOrRestrictUser } = useDeleteRestrictUser();
 
-  const availableRoles = [
-    { id: "91ac4010-168b-43ba-b23b-6e6377ba2e33", name: "User" },
-    { id: "admin-role-id", name: "Admin" },
-    { id: "manager-role-id", name: "Manager" },
-  ];
-
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedRole, setSelectedRole] = useState<string>("");
+
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<string | null>(null);
+
+  // Extract unique roles from the users data
+  const uniqueRoles: any = useMemo(() => {
+    if (!getAllUserData) return [];
+    const roles = getAllUserData.users.map(
+      (user: { role: string; id: string }) => user.role
+    );
+    return Array.from(
+      new Map(roles.map((role: { id: string }) => [role.id, role])).values()
+    );
+  }, [getAllUserData]);
 
   const handleDeleteUser = (userId: string) => {
     setUserToDelete(userId);
@@ -70,7 +56,7 @@ export default function ManageUsersTable() {
       };
       deleteOrRestrictUser(payload, {
         onSuccess: () => {
-          message.success(`Deleted User Sucessfully`);
+          message.success(`Deleted User Successfully`);
           refetchAllUsers();
           setDeleteDialogOpen(false);
         },
@@ -91,8 +77,8 @@ export default function ManageUsersTable() {
         message.success(
           `${
             restricted
-              ? "Activated User Account Sucessfully"
-              : "Deactivated User Account Sucessfully"
+              ? "Activated User Account Successfully"
+              : "Deactivated User Account Successfully"
           }`
         );
         refetchAllUsers();
@@ -102,6 +88,12 @@ export default function ManageUsersTable() {
       },
     });
   };
+
+  useEffect(() => {
+    if (selectedUser) {
+      setSelectedRole(selectedUser.role.id); // Ensure the role ID is set properly when editing
+    }
+  }, [selectedUser]);
 
   return (
     <div className="rounded-2xl border border-gray-800/30 overflow-hidden">
@@ -170,100 +162,15 @@ export default function ManageUsersTable() {
                 </td>
 
                 <td className="p-4 text-right">
-                  <Dialog>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="hover:bg-gray-800 text-gray-400 hover:text-gray-200"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent
-                        align="end"
-                        className="bg-[#0f0f0f] border-gray-800/50 text-gray-300"
-                      >
-                        <DropdownMenuItem
-                          onSelect={() => handleDeleteUser(user.id)}
-                          className="cursor-pointer hover:bg-gray-800"
-                        >
-                          <Trash className="mr-2 h-4 w-4" />
-                          Delete User
-                        </DropdownMenuItem>
-                        <DialogTrigger asChild>
-                          <DropdownMenuItem
-                            onSelect={() => setSelectedUser(user)}
-                            className="cursor-pointer hover:bg-gray-800"
-                          >
-                            <ArrowUpRight className="mr-2 h-4 w-4" />
-                            Edit User
-                          </DropdownMenuItem>
-                        </DialogTrigger>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-
-                    {/* Edit User Dialog */}
-                    <DialogContent className="bg-[#0f0f0f] border-gray-800/50">
-                      <DialogHeader>
-                        <DialogTitle className="text-gray-200">
-                          Change User Role
-                        </DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
-                          <span className="text-right text-gray-400">
-                            User:
-                          </span>
-                          <span className="col-span-3 text-gray-200">
-                            {selectedUser?.fullName}
-                          </span>
-                        </div>
-                        <div className="grid grid-cols-4 items-center gap-4">
-                          <span className="text-right text-gray-400">
-                            Role:
-                          </span>
-                          <Select
-                            value={selectedRole}
-                            onValueChange={setSelectedRole}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue
-                                placeholder="Select role"
-                                className="text-gray-300"
-                              />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {availableRoles.map((role) => (
-                                <SelectItem key={role.id} value={role.id}>
-                                  {role.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
-                      <div className="mt-4 flex justify-end space-x-4">
-                        <Button
-                          variant="ghost"
-                          onClick={() => {
-                            setSelectedUser(null);
-                            setSelectedRole("");
-                          }}
-                          className="text-gray-400"
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          //   onClick={handleRoleChange}
-                          className="text-gray-200"
-                        >
-                          Save
-                        </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                  <EditUserDialog
+                    selectedUser={selectedUser}
+                    setSelectedUser={setSelectedUser}
+                    handleDeleteUser={handleDeleteUser}
+                    user={user}
+                    setSelectedRole={setSelectedRole}
+                    selectedRole={selectedRole}
+                    uniqueRoles={uniqueRoles}
+                  />
                 </td>
               </tr>
             ))}
@@ -271,7 +178,6 @@ export default function ManageUsersTable() {
         </table>
       </div>
 
-      {/* Delete Confirmation Dialog */}
       <DeleteModal
         isDeleteDialogOpen={isDeleteDialogOpen}
         setDeleteDialogOpen={setDeleteDialogOpen}
