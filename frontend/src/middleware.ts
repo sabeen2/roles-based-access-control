@@ -4,9 +4,6 @@ import paths from "./utils/paths.utils";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
-  const token2 = request.cookies.get("token");
-  console.log(token, "hiiii");
-  console.log(token2, "hello");
   const currentPath = request.nextUrl.pathname;
 
   const unprotectedPaths = [

@@ -1,5 +1,3 @@
-import { slugify } from "./slugify.utils";
-
 const paths = {
   homePath: () => {
     return "/";

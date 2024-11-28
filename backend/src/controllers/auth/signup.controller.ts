@@ -98,11 +98,12 @@ export default async function signup(
 
     // Generate JWT token and set cookie
     const cookie = CookieMethods.generateJWT(newUser.email);
-    CookieMethods.setCookie(res, cookie, 7);
+    // CookieMethods.setCookie(res, cookie, 7);
 
     return res.status(201).json({
       success: true,
       message: "Signup successful. ",
+      cookie,
       data: newUser,
     });
   } catch (err) {
