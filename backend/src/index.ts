@@ -9,7 +9,6 @@ import { getUserRoles } from "./controllers/manage-roles/get-user-roles.controll
 import bookingRouter from "./routes/booking.router";
 import authorRouter from "./routes/author.router";
 import reviewRouter from "./routes/review.router";
-// import swaggerUi from "swagger-ui-express";
 // const { specs, swaggerUi } = require("./utils/swagger.utils");
 
 dotenv.config({ path: ".env" });
