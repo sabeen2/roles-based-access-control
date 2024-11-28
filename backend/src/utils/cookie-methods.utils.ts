@@ -50,7 +50,7 @@ class CookieMethods {
     res.cookie("token", token, {
       maxAge,
       httpOnly: true,
-      sameSite: "none",
+      // sameSite: "none",
       domain:
         process.env.NODE_ENV === "development" ? "localhost" : ".vercel.app",
       // domain: process.env.FRONTEND_URL,
