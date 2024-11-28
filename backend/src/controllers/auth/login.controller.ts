@@ -3,7 +3,7 @@ import {
   ILoginRequestBody,
   userLoginSchema,
 } from "../../schema/user-login.schema";
-import prisma from "../../../prisma/prismaClient";
+import prisma from "../../utils/prismaClient";
 import CookieMethods from "../../utils/cookie-methods.utils";
 import bcrypt from "bcrypt";
 // import rateLimiter from "../../utils/rate-limiter.utils";

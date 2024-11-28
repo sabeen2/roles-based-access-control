@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import prisma from "../../../prisma/prismaClient";
+import prisma from "../../utils/prismaClient";
 
 interface CustomRequest extends Request {
   user: { email: string };

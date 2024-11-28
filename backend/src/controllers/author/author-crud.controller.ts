@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { z } from "zod";
-import prisma from "../../../prisma/prismaClient";
+import prisma from "../../utils/prismaClient";
 
 const router = express.Router();
 
