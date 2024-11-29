@@ -19,7 +19,7 @@ const ReviewList = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Filter reviews based on search query (case-insensitive match)
+
   const filteredReviews = reviewData?.data?.filter(
     (review: IReviewInterface) => {
       const title = review?.name?.toLowerCase() || "";
