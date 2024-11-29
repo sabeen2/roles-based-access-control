@@ -42,6 +42,7 @@ const LoginPage = () => {
           expires: 7,
           secure: true,
           sameSite: "none",
+          domain: ".vercel.com",
         });
         router.push(paths.getAuthorPath());
       },
