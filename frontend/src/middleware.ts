@@ -27,7 +27,7 @@ export function middleware(request: NextRequest) {
     );
 
     response.cookies.set("token", "", {
-      expires: new Date(0),
+       maxAge: 7 * 24 * 60 * 60,
       secure: true,
       sameSite: "none",
       path: "/",
@@ -69,7 +69,6 @@ export function middleware(request: NextRequest) {
   if (token) {
     const response = NextResponse.next();
     response.cookies.set("token", token, {
-      httpOnly: true,
       secure: true,
       sameSite: "none",
       path: "/",
