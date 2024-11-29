@@ -30,7 +30,7 @@ export function middleware(request: NextRequest) {
       maxAge: 7 * 24 * 60 * 60,
       secure: true,
       sameSite: "none",
-      domain: ".vercel.com",
+      domain: ".vercel.app",
     });
 
     return response;
@@ -72,7 +72,7 @@ export function middleware(request: NextRequest) {
       sameSite: "none",
       path: "/",
       maxAge: 7 * 24 * 60 * 60, // Cookie will expire after 7 days
-      domain: ".vercel.com",
+      domain: ".vercel.app",
     });
     return response;
   }
