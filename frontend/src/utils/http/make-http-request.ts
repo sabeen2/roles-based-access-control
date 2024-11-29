@@ -44,7 +44,6 @@ export const makeHttpRequest = async (
         apiDetails.requestBodyType === RequestBodyType.FORMDATA
           ? "multipart/form-data"
           : "application/json",
-      // 'Cache-Control': 'no-store',
     },
     data: transformedData,
     withCredentials: true,
